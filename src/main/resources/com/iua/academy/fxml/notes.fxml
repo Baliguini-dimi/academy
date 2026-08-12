@@ -1,9 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="4" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
-    <Label text="Notes" styleClass="page-title" />
-    <Label text="Ecran en construction - sprint suivant : saisie et calcul des moyennes" styleClass="page-subtitle" />
+<VBox spacing="20" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.iua.academy.controller.NotesController">
+
+    <VBox spacing="4">
+        <Label text="Notes" styleClass="page-title" />
+        <Label text="Saisie et suivi des notes par etudiant et matiere" styleClass="page-subtitle" />
+    </VBox>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="champRecherche" promptText="Rechercher (etudiant ou matiere)" prefWidth="280" />
+        <Button text="Rechercher" styleClass="btn-secondary" onAction="#rechercher" />
+        <Button text="Modifier" styleClass="btn-secondary" onAction="#ouvrirFormulaireModification" />
+        <Button text="Supprimer" styleClass="btn-danger" onAction="#supprimerSelection" />
+        <Button text="+ Nouvelle note" styleClass="btn-primary" onAction="#ouvrirFormulaireAjout" />
+    </HBox>
+
+    <TableView fx:id="tableNotes" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="colEtudiant" text="Etudiant" prefWidth="180" />
+            <TableColumn fx:id="colMatiere" text="Matiere" prefWidth="150" />
+            <TableColumn fx:id="colValeur" text="Note /20" prefWidth="90" />
+            <TableColumn fx:id="colType" text="Type" prefWidth="120" />
+            <TableColumn fx:id="colDate" text="Date" prefWidth="110" />
+        </columns>
+    </TableView>
+
+    <padding>
+        <Insets top="0" right="0" bottom="0" left="0" />
+    </padding>
+
 </VBox>
