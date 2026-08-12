@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.iua.academy.controller.MainLayoutController">
+
+    <!-- Barre laterale de navigation -->
+    <left>
+        <VBox styleClass="sidebar">
+            <VBox>
+                <Label text="ACADEMY" styleClass="sidebar-logo" />
+                <Label text="Institut Universitaire d'Abidjan" styleClass="subtitle">
+                    <VBox.margin>
+                        <Insets left="20" bottom="20" />
+                    </VBox.margin>
+                </Label>
+            </VBox>
+
+            <Button fx:id="btnDashboard" text="Tableau de bord" styleClass="nav-button" onAction="#afficherDashboard" maxWidth="Infinity" />
+            <Button fx:id="btnEtudiants" text="Etudiants" styleClass="nav-button" onAction="#afficherEtudiants" maxWidth="Infinity" />
+            <Button fx:id="btnMatieres" text="Matieres" styleClass="nav-button" onAction="#afficherMatieres" maxWidth="Infinity" />
+            <Button fx:id="btnNotes" text="Notes" styleClass="nav-button" onAction="#afficherNotes" maxWidth="Infinity" />
+        </VBox>
+    </left>
+
+    <!-- Zone de contenu dynamique -->
+    <center>
+        <StackPane fx:id="contentArea" styleClass="content-area" />
+    </center>
+
+</BorderPane>

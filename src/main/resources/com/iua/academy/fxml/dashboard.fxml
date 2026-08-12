@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="24" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.iua.academy.controller.DashboardController">
+
+    <VBox spacing="4">
+        <Label text="Tableau de bord" styleClass="page-title" />
+        <Label text="Vue d'ensemble de la gestion academique" styleClass="page-subtitle" />
+    </VBox>
+
+    <HBox spacing="20">
+        <VBox styleClass="card" prefWidth="220">
+            <Label fx:id="lblNbEtudiants" text="0" styleClass="card-stat-value" />
+            <Label text="Etudiants inscrits" styleClass="card-stat-label" />
+        </VBox>
+        <VBox styleClass="card" prefWidth="220">
+            <Label fx:id="lblNbMatieres" text="0" styleClass="card-stat-value" />
+            <Label text="Matieres enseignees" styleClass="card-stat-label" />
+        </VBox>
+        <VBox styleClass="card" prefWidth="220">
+            <Label fx:id="lblNbNotes" text="0" styleClass="card-stat-value" />
+            <Label text="Notes saisies" styleClass="card-stat-label" />
+        </VBox>
+    </HBox>
+
+    <padding>
+        <Insets top="0" right="0" bottom="0" left="0" />
+    </padding>
+
+</VBox>

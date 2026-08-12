@@ -1,0 +1,28 @@
+package com.iua.academy.controller;
+
+import com.iua.academy.dao.EtudiantDAO;
+import com.iua.academy.dao.EtudiantDaoSqlite;
+import com.iua.academy.dao.MatiereDAO;
+import com.iua.academy.dao.MatiereDaoSqlite;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+
+public class DashboardController {
+
+    @FXML
+    private Label lblNbEtudiants;
+    @FXML
+    private Label lblNbMatieres;
+    @FXML
+    private Label lblNbNotes;
+
+    private final EtudiantDAO etudiantDAO = new EtudiantDaoSqlite();
+    private final MatiereDAO matiereDAO = new MatiereDaoSqlite();
+
+    @FXML
+    public void initialize() {
+        lblNbEtudiants.setText(String.valueOf(etudiantDAO.listerTous().size()));
+        lblNbMatieres.setText(String.valueOf(matiereDAO.listerTous().size()));
+        lblNbNotes.setText("-"); // branche des que NoteDAO existera
+    }
+}

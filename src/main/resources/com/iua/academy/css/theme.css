@@ -1,0 +1,158 @@
+/*
+ * Theme Academy - inspire de l'identite visuelle de l'Institut Universitaire d'Abidjan
+ * Palette :
+ *   Bleu marine  : #0F2A4D  (navigation, titres forts)
+ *   Bleu ciel    : #2E9FE0  (accents, actions secondaires)
+ *   Or/Jaune     : #F4A81D  (actions principales, mise en avant)
+ *   Fond clair   : #F5F8FC
+ *   Texte gris   : #4A4A4A
+ */
+
+.root {
+    -fx-navy: #0F2A4D;
+    -fx-sky: #2E9FE0;
+    -fx-gold: #F4A81D;
+    -fx-bg-light: #F5F8FC;
+    -fx-text-gray: #4A4A4A;
+
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -fx-background-color: -fx-bg-light;
+}
+
+/* ===== Barre laterale de navigation ===== */
+.sidebar {
+    -fx-background-color: -fx-navy;
+    -fx-padding: 0;
+    -fx-pref-width: 230;
+}
+
+.sidebar-logo {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 24 20 24 20;
+}
+
+.sidebar-logo .subtitle {
+    -fx-text-fill: derive(white, -20%);
+    -fx-font-size: 11px;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: rgba(255, 255, 255, 0.85);
+    -fx-font-size: 14px;
+    -fx-alignment: center-left;
+    -fx-padding: 14 20 14 20;
+    -fx-pref-width: 230;
+    -fx-cursor: hand;
+    -fx-background-radius: 0;
+}
+
+.nav-button:hover {
+    -fx-background-color: derive(#0F2A4D, 15%);
+    -fx-text-fill: white;
+}
+
+.nav-button-active {
+    -fx-background-color: -fx-sky;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* ===== Zone de contenu ===== */
+.content-area {
+    -fx-background-color: -fx-bg-light;
+    -fx-padding: 30;
+}
+
+.page-title {
+    -fx-text-fill: -fx-navy;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.page-subtitle {
+    -fx-text-fill: -fx-text-gray;
+    -fx-font-size: 13px;
+}
+
+/* ===== Cards ===== */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(15,42,77,0.08), 12, 0, 0, 4);
+}
+
+.card-stat-value {
+    -fx-text-fill: -fx-navy;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+.card-stat-label {
+    -fx-text-fill: -fx-text-gray;
+    -fx-font-size: 12px;
+}
+
+/* ===== Boutons ===== */
+.btn-primary {
+    -fx-background-color: -fx-gold;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+}
+
+.btn-primary:hover {
+    -fx-background-color: derive(#F4A81D, -10%);
+}
+
+.btn-secondary {
+    -fx-background-color: -fx-sky;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 10 20 10 20;
+    -fx-cursor: hand;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: derive(#2E9FE0, -10%);
+}
+
+.btn-danger {
+    -fx-background-color: transparent;
+    -fx-text-fill: #D64545;
+    -fx-border-color: #D64545;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 9 18 9 18;
+    -fx-cursor: hand;
+}
+
+/* ===== Tableaux ===== */
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: -fx-navy;
+    -fx-background-radius: 10 10 0 0;
+}
+
+.table-view .column-header-background .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #FAFCFE;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: derive(#2E9FE0, 70%);
+}

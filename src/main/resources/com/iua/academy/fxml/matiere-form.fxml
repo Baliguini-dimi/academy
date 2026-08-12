@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="18" styleClass="card" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.iua.academy.controller.MatiereFormController">
+
+    <Label text="Fiche matiere" styleClass="page-title" />
+
+    <GridPane hgap="12" vgap="12">
+        <columnConstraints>
+            <ColumnConstraints minWidth="120" />
+            <ColumnConstraints minWidth="220" />
+        </columnConstraints>
+
+        <Label text="Nom *" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+        <TextField fx:id="champNom" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+        <Label text="Coefficient *" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+        <TextField fx:id="champCoefficient" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+        <Label text="Enseignant" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+        <TextField fx:id="champEnseignant" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Annuler" styleClass="btn-danger" onAction="#annuler" />
+        <Button text="Enregistrer" styleClass="btn-primary" onAction="#enregistrer" />
+    </HBox>
+
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10" />
+    </padding>
+
+</VBox>
