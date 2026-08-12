@@ -32,3 +32,11 @@ CREATE TABLE IF NOT EXISTS note (
 
 CREATE INDEX IF NOT EXISTS idx_note_etudiant ON note(etudiant_id);
 CREATE INDEX IF NOT EXISTS idx_note_matiere  ON note(matiere_id);
+CREATE TABLE IF NOT EXISTS parametre (
+    cle    TEXT PRIMARY KEY,
+    valeur TEXT
+);
+
+INSERT OR IGNORE INTO parametre (cle, valeur) VALUES ('nom_etablissement', 'Mon Etablissement');
+INSERT OR IGNORE INTO parametre (cle, valeur) VALUES ('annee_scolaire', '2025-2026');
+INSERT OR IGNORE INTO parametre (cle, valeur) VALUES ('seuil_validation', '10');

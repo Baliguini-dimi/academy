@@ -8,10 +8,6 @@ import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
-/**
- * Controleur du layout principal : gere la barre laterale et le chargement
- * dynamique des differents ecrans dans la zone de contenu.
- */
 public class MainLayoutController {
 
     @FXML
@@ -25,6 +21,8 @@ public class MainLayoutController {
     private Button btnMatieres;
     @FXML
     private Button btnNotes;
+    @FXML
+    private Button btnParametres;
 
     @FXML
     public void initialize() {
@@ -51,6 +49,11 @@ public class MainLayoutController {
         chargerEcran("/com/iua/academy/fxml/notes.fxml", btnNotes);
     }
 
+    @FXML
+    public void afficherParametres() {
+        chargerEcran("/com/iua/academy/fxml/parametres.fxml", btnParametres);
+    }
+
     private void chargerEcran(String fxmlPath, Button boutonActif) {
         try {
             Parent ecran = FXMLLoader.load(getClass().getResource(fxmlPath));
@@ -62,7 +65,7 @@ public class MainLayoutController {
     }
 
     private void mettreAJourBoutonActif(Button boutonActif) {
-        for (Button b : new Button[]{btnDashboard, btnEtudiants, btnMatieres, btnNotes}) {
+        for (Button b : new Button[]{btnDashboard, btnEtudiants, btnMatieres, btnNotes, btnParametres}) {
             b.getStyleClass().remove("nav-button-active");
         }
         boutonActif.getStyleClass().add("nav-button-active");

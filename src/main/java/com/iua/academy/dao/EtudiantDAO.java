@@ -23,4 +23,6 @@ public interface EtudiantDAO {
     boolean mettreAJour(Etudiant etudiant);
 
     boolean supprimer(int id);
+
+    boolean matriculeExiste(String matricule, Integer idAExclure);
 }

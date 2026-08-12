@@ -54,10 +54,18 @@ public class EtudiantFormController {
         if (!champsValides()) {
             return;
         }
+
+        String matricule = champMatricule.getText().trim();
+        Integer idAExclure = (etudiantEnCours != null) ? etudiantEnCours.getId() : null;
+        if (etudiantDAO.matriculeExiste(matricule, idAExclure)) {
+            afficherErreur("Ce matricule est deja utilise par un autre etudiant.");
+            return;
+        }
+
         try {
             if (etudiantEnCours == null) {
                 Etudiant nouveau = new Etudiant(
-                    champMatricule.getText().trim(),
+                    matricule,
                     champNom.getText().trim(),
                     champPrenom.getText().trim(),
                     champDateNaissance.getValue(),
@@ -66,7 +74,7 @@ public class EtudiantFormController {
                 );
                 etudiantDAO.creer(nouveau);
             } else {
-                etudiantEnCours.setMatricule(champMatricule.getText().trim());
+                etudiantEnCours.setMatricule(matricule);
                 etudiantEnCours.setNom(champNom.getText().trim());
                 etudiantEnCours.setPrenom(champPrenom.getText().trim());
                 etudiantEnCours.setDateNaissance(champDateNaissance.getValue());
@@ -77,7 +85,7 @@ public class EtudiantFormController {
             sauvegarde = true;
             fermerFenetre();
         } catch (RuntimeException e) {
-            afficherErreur("Impossible d'enregistrer l'etudiant. Le matricule est peut-etre deja utilise par un autre etudiant.");
+            afficherErreur("Impossible d'enregistrer l'etudiant.");
         }
     }
 

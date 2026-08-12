@@ -27,6 +27,7 @@
             <Button fx:id="btnEtudiants" text="Etudiants" styleClass="nav-button" onAction="#afficherEtudiants" maxWidth="Infinity" />
             <Button fx:id="btnMatieres" text="Matieres" styleClass="nav-button" onAction="#afficherMatieres" maxWidth="Infinity" />
             <Button fx:id="btnNotes" text="Notes" styleClass="nav-button" onAction="#afficherNotes" maxWidth="Infinity" />
+            <Button fx:id="btnParametres" text="Parametres" styleClass="nav-button" onAction="#afficherParametres" maxWidth="Infinity" />
         </VBox>
     </left>
 

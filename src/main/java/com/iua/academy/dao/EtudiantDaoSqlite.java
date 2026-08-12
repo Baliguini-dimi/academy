@@ -150,4 +150,22 @@ public class EtudiantDaoSqlite implements EtudiantDAO {
         e.setEmail(rs.getString("email"));
         return e;
     }
+
+    @Override
+    public boolean matriculeExiste(String matricule, Integer idAExclure) {
+        String sql = idAExclure == null
+            ? "SELECT COUNT(*) FROM etudiant WHERE matricule = ?"
+            : "SELECT COUNT(*) FROM etudiant WHERE matricule = ? AND id != ?";
+        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+            ps.setString(1, matricule);
+            if (idAExclure != null) {
+                ps.setInt(2, idAExclure);
+            }
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de la verification du matricule", e);
+        }
+    }
 }
