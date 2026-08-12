@@ -30,8 +30,9 @@
             <TableColumn fx:id="colMatricule" text="Matricule" prefWidth="110" />
             <TableColumn fx:id="colNom" text="Nom" prefWidth="140" />
             <TableColumn fx:id="colPrenom" text="Prenom" prefWidth="140" />
-            <TableColumn fx:id="colClasse" text="Classe" prefWidth="120" />
-            <TableColumn fx:id="colEmail" text="Email" prefWidth="200" />
+            <TableColumn fx:id="colClasse" text="Classe" prefWidth="110" />
+            <TableColumn fx:id="colEmail" text="Email" prefWidth="180" />
+            <TableColumn fx:id="colMoyenne" text="Moyenne" prefWidth="90" />
         </columns>
     </TableView>
 

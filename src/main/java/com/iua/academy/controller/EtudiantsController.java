@@ -2,20 +2,23 @@ package com.iua.academy.controller;
 
 import com.iua.academy.dao.EtudiantDAO;
 import com.iua.academy.dao.EtudiantDaoSqlite;
+import com.iua.academy.dao.NoteDAO;
+import com.iua.academy.dao.NoteDaoSqlite;
 import com.iua.academy.model.Etudiant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -24,7 +27,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Controleur de l'ecran de gestion des etudiants : liste, recherche, CRUD complet.
+ * Controleur de l'ecran de gestion des etudiants : liste, recherche, CRUD complet
+ * et affichage de la moyenne ponderee calculee a partir des notes.
  */
 public class EtudiantsController {
 
@@ -41,9 +45,12 @@ public class EtudiantsController {
     @FXML
     private TableColumn<Etudiant, String> colEmail;
     @FXML
+    private TableColumn<Etudiant, Double> colMoyenne;
+    @FXML
     private TextField champRecherche;
 
     private final EtudiantDAO etudiantDAO = new EtudiantDaoSqlite();
+    private final NoteDAO noteDAO = new NoteDaoSqlite();
 
     @FXML
     public void initialize() {
@@ -52,6 +59,8 @@ public class EtudiantsController {
         colPrenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
         colClasse.setCellValueFactory(new PropertyValueFactory<>("classe"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colMoyenne.setCellValueFactory(new PropertyValueFactory<>("moyenne"));
+        colMoyenne.setCellFactory(colonne -> creerCelluleMoyenne());
 
         rafraichir();
     }
@@ -132,8 +141,33 @@ public class EtudiantsController {
     }
 
     private void chargerListe(List<Etudiant> etudiants) {
+        // Calcule la moyenne de chaque etudiant a partir de ses notes
+        for (Etudiant e : etudiants) {
+            e.setMoyenne(noteDAO.calculerMoyenneEtudiant(e.getId()));
+        }
         ObservableList<Etudiant> data = FXCollections.observableArrayList(etudiants);
         tableEtudiants.setItems(data);
+    }
+
+    /** Cellule custom : affiche "-" si pas de note, sinon la moyenne sur 2 decimales avec une couleur selon le niveau. */
+    private TableCell<Etudiant, Double> creerCelluleMoyenne() {
+        return new TableCell<>() {
+            @Override
+            protected void updateItem(Double moyenne, boolean vide) {
+                super.updateItem(moyenne, vide);
+                if (vide || moyenne == null) {
+                    setText("-");
+                    setStyle("");
+                } else {
+                    setText(String.format("%.2f", moyenne));
+                    if (moyenne >= 10) {
+                        setStyle("-fx-text-fill: #1E8449; -fx-font-weight: bold;");
+                    } else {
+                        setStyle("-fx-text-fill: #D64545; -fx-font-weight: bold;");
+                    }
+                }
+            }
+        };
     }
 
     private void afficherInfo(String message) {

@@ -87,6 +87,17 @@ public class Etudiant {
         return prenom + " " + nom;
     }
 
+    // Champ calcule, non persiste en base : rempli a l'affichage a partir des notes
+    private Double moyenne;
+
+    public Double getMoyenne() {
+        return moyenne;
+    }
+
+    public void setMoyenne(Double moyenne) {
+        this.moyenne = moyenne;
+    }
+
     @Override
     public String toString() {
         return getNomComplet();
