@@ -39,14 +39,6 @@
         <VBox styleClass="card" spacing="14" alignment="CENTER">
             <Label text="LE CONCEPTEUR" styleClass="about-section-label" />
 
-            <VBox alignment="CENTER">
-                <ImageView fx:id="photoConcepteur" fitWidth="120" fitHeight="120">
-                    <clip>
-                        <Circle radius="60" centerX="60" centerY="60" />
-                    </clip>
-                </ImageView>
-            </VBox>
-
             <Label text="Dimitri Nelson BALIGUINI" styleClass="about-name" />
             <Label text="Dem's" styleClass="about-tagline" />
             <Label text="Developpeur Full-Stack" styleClass="about-role" />
@@ -59,7 +51,7 @@
             </HBox>
 
             <VBox styleClass="about-quote-box">
-                <Label text="&quot;Academy est ne de la volonte de rendre la gestion academique simple, moderne et accessible.&quot;"
+                <Label text="&quot;J'ai voulu qu'Academy ressemble a ce que j'aurais aime utiliser a mes debuts : simple, honnete, sans floritures. Ce projet porte un peu de mon parcours - entre la Centrafrique et la Cote d'Ivoire - et une conviction : la technologie doit d'abord servir les gens avant d'impressionner.&quot;"
                        wrapText="true" styleClass="about-quote-text" textAlignment="CENTER" />
             </VBox>
         </VBox>
