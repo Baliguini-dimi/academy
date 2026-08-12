@@ -1,35 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="24" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.iua.academy.controller.DashboardController">
+<ScrollPane fitToWidth="true" styleClass="content-area" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.iua.academy.controller.DashboardController">
+    <VBox spacing="24">
 
-    <VBox spacing="4">
-        <Label text="Tableau de bord" styleClass="page-title" />
-        <Label text="Vue d'ensemble de la gestion academique" styleClass="page-subtitle" />
+        <VBox spacing="4">
+            <Label text="Tableau de bord" styleClass="page-title" />
+            <Label text="Vue d'ensemble en temps reel de la gestion academique" styleClass="page-subtitle" />
+        </VBox>
+
+        <!-- Cards KPI -->
+        <HBox spacing="20">
+            <VBox styleClass="card" prefWidth="200">
+                <Label fx:id="lblNbEtudiants" text="0" styleClass="card-stat-value" />
+                <Label text="Etudiants inscrits" styleClass="card-stat-label" />
+            </VBox>
+            <VBox styleClass="card" prefWidth="200">
+                <Label fx:id="lblNbMatieres" text="0" styleClass="card-stat-value" />
+                <Label text="Matieres enseignees" styleClass="card-stat-label" />
+            </VBox>
+            <VBox styleClass="card" prefWidth="200">
+                <Label fx:id="lblNbNotes" text="0" styleClass="card-stat-value" />
+                <Label text="Notes saisies" styleClass="card-stat-label" />
+            </VBox>
+            <VBox styleClass="card" prefWidth="200">
+                <Label fx:id="lblMoyenneGenerale" text="-" styleClass="card-stat-value" />
+                <Label text="Moyenne generale" styleClass="card-stat-label" />
+            </VBox>
+        </HBox>
+
+        <!-- Ligne 1 de graphiques -->
+        <HBox spacing="20">
+            <VBox styleClass="card" HBox.hgrow="ALWAYS">
+                <Label text="Etudiants par classe" styleClass="card-stat-label" />
+                <BarChart fx:id="chartClasses" legendVisible="false" prefHeight="280">
+                    <xAxis>
+                        <CategoryAxis fx:id="axeXClasses" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis fx:id="axeYClasses" />
+                    </yAxis>
+                </BarChart>
+            </VBox>
+            <VBox styleClass="card" HBox.hgrow="ALWAYS">
+                <Label text="Repartition des notes par mention" styleClass="card-stat-label" />
+                <PieChart fx:id="chartMentions" prefHeight="280" legendSide="RIGHT" />
+            </VBox>
+        </HBox>
+
+        <!-- Ligne 2 de graphiques -->
+        <HBox spacing="20">
+            <VBox styleClass="card" HBox.hgrow="ALWAYS">
+                <Label text="Moyenne par matiere" styleClass="card-stat-label" />
+                <BarChart fx:id="chartMatieres" legendVisible="false" prefHeight="280">
+                    <xAxis>
+                        <CategoryAxis fx:id="axeXMatieres" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis fx:id="axeYMatieres" lowerBound="0" upperBound="20" />
+                    </yAxis>
+                </BarChart>
+            </VBox>
+            <VBox styleClass="card" HBox.hgrow="ALWAYS">
+                <Label text="Notes saisies par semaine" styleClass="card-stat-label" />
+                <LineChart fx:id="chartEvolution" legendVisible="false" prefHeight="280">
+                    <xAxis>
+                        <CategoryAxis fx:id="axeXEvolution" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis fx:id="axeYEvolution" />
+                    </yAxis>
+                </LineChart>
+            </VBox>
+        </HBox>
+
+        <padding>
+            <Insets top="0" right="4" bottom="20" left="0" />
+        </padding>
+
     </VBox>
-
-    <HBox spacing="20">
-        <VBox styleClass="card" prefWidth="220">
-            <Label fx:id="lblNbEtudiants" text="0" styleClass="card-stat-value" />
-            <Label text="Etudiants inscrits" styleClass="card-stat-label" />
-        </VBox>
-        <VBox styleClass="card" prefWidth="220">
-            <Label fx:id="lblNbMatieres" text="0" styleClass="card-stat-value" />
-            <Label text="Matieres enseignees" styleClass="card-stat-label" />
-        </VBox>
-        <VBox styleClass="card" prefWidth="220">
-            <Label fx:id="lblNbNotes" text="0" styleClass="card-stat-value" />
-            <Label text="Notes saisies" styleClass="card-stat-label" />
-        </VBox>
-    </HBox>
-
-    <padding>
-        <Insets top="0" right="0" bottom="0" left="0" />
-    </padding>
-
-</VBox>
+</ScrollPane>

@@ -23,6 +23,8 @@ public class MainLayoutController {
     private Button btnNotes;
     @FXML
     private Button btnParametres;
+    @FXML
+    private Button btnAbout;
 
     @FXML
     public void initialize() {
@@ -54,6 +56,11 @@ public class MainLayoutController {
         chargerEcran("/com/iua/academy/fxml/parametres.fxml", btnParametres);
     }
 
+    @FXML
+    public void afficherAbout() {
+        chargerEcran("/com/iua/academy/fxml/about.fxml", btnAbout);
+    }
+
     private void chargerEcran(String fxmlPath, Button boutonActif) {
         try {
             Parent ecran = FXMLLoader.load(getClass().getResource(fxmlPath));
@@ -65,7 +72,7 @@ public class MainLayoutController {
     }
 
     private void mettreAJourBoutonActif(Button boutonActif) {
-        for (Button b : new Button[]{btnDashboard, btnEtudiants, btnMatieres, btnNotes, btnParametres}) {
+        for (Button b : new Button[]{btnDashboard, btnEtudiants, btnMatieres, btnNotes, btnParametres, btnAbout}) {
             b.getStyleClass().remove("nav-button-active");
         }
         boutonActif.getStyleClass().add("nav-button-active");

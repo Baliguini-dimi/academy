@@ -156,3 +156,90 @@
 .table-row-cell:selected {
     -fx-background-color: derive(#2E9FE0, 70%);
 }
+
+/* ===== Graphiques (dashboard) ===== */
+.chart {
+    -fx-padding: 10 0 0 0;
+}
+
+.chart-title {
+    -fx-text-fill: -fx-navy;
+    -fx-font-weight: bold;
+}
+
+.axis {
+    -fx-tick-label-fill: -fx-text-gray;
+}
+
+.default-color0.chart-bar {
+    -fx-bar-fill: -fx-sky;
+}
+
+.default-color0.chart-line-symbol {
+    -fx-background-color: -fx-gold, white;
+}
+
+.chart-series-line {
+    -fx-stroke: -fx-gold;
+    -fx-stroke-width: 2px;
+}
+
+/* Palette des 5 tranches du PieChart (Insuffisant -> Excellent) */
+.default-color0.chart-pie { -fx-pie-color: #D64545; }
+.default-color1.chart-pie { -fx-pie-color: #F4A81D; }
+.default-color2.chart-pie { -fx-pie-color: #2E9FE0; }
+.default-color3.chart-pie { -fx-pie-color: #0F2A4D; }
+.default-color4.chart-pie { -fx-pie-color: #1E8449; }
+
+/* ===== Ecran A propos ===== */
+.about-app-name {
+    -fx-text-fill: -fx-navy;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.about-label-small {
+    -fx-text-fill: -fx-text-gray;
+    -fx-font-size: 11px;
+}
+
+.about-value-small {
+    -fx-text-fill: -fx-navy;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.about-section-label {
+    -fx-text-fill: -fx-sky;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.about-name {
+    -fx-text-fill: -fx-navy;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.about-tagline {
+    -fx-text-fill: -fx-gold;
+    -fx-font-style: italic;
+    -fx-font-size: 14px;
+}
+
+.about-role {
+    -fx-text-fill: -fx-text-gray;
+    -fx-font-size: 13px;
+}
+
+.about-quote-box {
+    -fx-background-color: -fx-bg-light;
+    -fx-background-radius: 8;
+    -fx-padding: 18;
+}
+
+.about-quote-text {
+    -fx-text-fill: -fx-text-gray;
+    -fx-font-style: italic;
+    -fx-font-size: 13px;
+}
