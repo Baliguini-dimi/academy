@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
@@ -12,6 +13,9 @@ public class MainLayoutController {
 
     @FXML
     private StackPane contentArea;
+
+    @FXML
+    private Label lblTopbarSection;
 
     @FXML
     private Button btnDashboard;
@@ -66,6 +70,7 @@ public class MainLayoutController {
             Parent ecran = FXMLLoader.load(getClass().getResource(fxmlPath));
             contentArea.getChildren().setAll(ecran);
             mettreAJourBoutonActif(boutonActif);
+            lblTopbarSection.setText(boutonActif.getText());
         } catch (IOException e) {
             throw new RuntimeException("Impossible de charger l'ecran : " + fxmlPath, e);
         }

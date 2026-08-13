@@ -7,35 +7,45 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.iua.academy.controller.MainLayoutController">
 
+    <!-- ===== Barre laterale ===== -->
     <left>
         <VBox styleClass="sidebar">
             <padding>
-                <Insets top="24" right="20" bottom="0" left="20" />
+                <Insets top="28" right="20" bottom="20" left="20" />
             </padding>
 
-            <VBox alignment="CENTER_LEFT" spacing="8">
-                <HBox alignment="CENTER_LEFT" spacing="10">
-                    <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
+            <!-- Logo agrandi -->
+            <VBox alignment="CENTER_LEFT" spacing="10">
+                <HBox alignment="CENTER_LEFT" spacing="12">
+                    <ImageView fitWidth="44" fitHeight="44" preserveRatio="true">
                         <image>
                             <Image url="@../images/logo.png" />
                         </image>
                     </ImageView>
-                    <Label text="ACADEMY" styleClass="sidebar-logo" />
+                    <VBox spacing="1">
+                        <Label text="ACADEMY" styleClass="sidebar-logo" />
+                        <Label text="Gestion academique" styleClass="subtitle" />
+                    </VBox>
                 </HBox>
-                <Label text="Gestion academique" styleClass="subtitle">
-                    <VBox.margin>
-                        <Insets left="20" bottom="20" />
-                    </VBox.margin>
-                </Label>
             </VBox>
+
+            <Region prefHeight="28" />
+
+            <Label text="PRINCIPAL" styleClass="nav-group-label">
+                <VBox.margin>
+                    <Insets left="20" bottom="8" />
+                </VBox.margin>
+            </Label>
 
             <Button fx:id="btnDashboard" text="Tableau de bord" styleClass="nav-button" onAction="#afficherDashboard" maxWidth="Infinity">
                 <graphic>
@@ -57,6 +67,15 @@
                     <FontIcon iconLiteral="mdi2c-clipboard-check-outline" iconSize="18" styleClass="nav-icon" />
                 </graphic>
             </Button>
+
+            <Region prefHeight="24" />
+
+            <Label text="CONFIGURATION" styleClass="nav-group-label">
+                <VBox.margin>
+                    <Insets left="20" bottom="8" />
+                </VBox.margin>
+            </Label>
+
             <Button fx:id="btnParametres" text="Parametres" styleClass="nav-button" onAction="#afficherParametres" maxWidth="Infinity">
                 <graphic>
                     <FontIcon iconLiteral="mdi2c-cog-outline" iconSize="18" styleClass="nav-icon" />
@@ -70,6 +89,21 @@
         </VBox>
     </left>
 
+    <!-- ===== Barre superieure ===== -->
+    <top>
+        <HBox styleClass="topbar" alignment="CENTER_LEFT">
+            <Label fx:id="lblTopbarSection" text="Tableau de bord" styleClass="topbar-title" />
+
+            <Region HBox.hgrow="ALWAYS" />
+
+            <HBox alignment="CENTER_RIGHT" spacing="8">
+                <Circle radius="4" styleClass="topbar-status-dot" />
+                <Label text="Connecte" styleClass="topbar-status" />
+            </HBox>
+        </HBox>
+    </top>
+
+    <!-- ===== Contenu ===== -->
     <center>
         <StackPane fx:id="contentArea" styleClass="content-area" />
     </center>
