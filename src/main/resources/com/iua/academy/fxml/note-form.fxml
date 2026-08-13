@@ -16,7 +16,7 @@
 
     <Label text="Saisie de note" styleClass="page-title" />
 
-    <GridPane hgap="12" vgap="12">
+    <GridPane hgap="12" vgap="6">
         <columnConstraints>
             <ColumnConstraints minWidth="120" />
             <ColumnConstraints minWidth="240" />
@@ -29,7 +29,10 @@
         <ComboBox fx:id="comboMatiere" GridPane.rowIndex="1" GridPane.columnIndex="1" maxWidth="Infinity" />
 
         <Label text="Note (/20) *" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-        <TextField fx:id="champValeur" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+        <VBox spacing="4" GridPane.rowIndex="2" GridPane.columnIndex="1">
+            <TextField fx:id="champValeur" />
+            <Label fx:id="lblErreurValeur" styleClass="feedback-error" visible="false" managed="false" />
+        </VBox>
 
         <Label text="Type d'evaluation *" GridPane.rowIndex="3" GridPane.columnIndex="0" />
         <ComboBox fx:id="comboType" GridPane.rowIndex="3" GridPane.columnIndex="1" maxWidth="Infinity" editable="true" />
@@ -39,8 +42,8 @@
     </GridPane>
 
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Annuler" styleClass="btn-danger" onAction="#annuler" />
-        <Button text="Enregistrer" styleClass="btn-primary" onAction="#enregistrer" />
+        <Button text="Annuler" styleClass="btn-action-neutral" onAction="#annuler" />
+        <Button text="Enregistrer" styleClass="btn-action-primary" onAction="#enregistrer" />
     </HBox>
 
     <padding>

@@ -16,6 +16,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -29,6 +30,8 @@ public class NoteFormController {
     private ComboBox<Matiere> comboMatiere;
     @FXML
     private TextField champValeur;
+    @FXML
+    private Label lblErreurValeur;
     @FXML
     private ComboBox<String> comboType;
     @FXML
@@ -47,9 +50,15 @@ public class NoteFormController {
         comboMatiere.setItems(FXCollections.observableArrayList(matiereDAO.listerTous()));
         comboType.setItems(FXCollections.observableArrayList("Devoir", "Interrogation", "Examen", "Projet"));
         champDate.setValue(LocalDate.now());
+
+        // Validation en temps reel : des que l'utilisateur quitte le champ Note
+        champValeur.focusedProperty().addListener((obs, etaitFocus, estFocus) -> {
+            if (!estFocus) {
+                validerChampValeur();
+            }
+        });
     }
 
-    /** A appeler juste apres le chargement du FXML pour passer en mode modification. */
     public void initPourModification(NoteDetaillee note) {
         this.noteEnCours = note;
 
@@ -72,21 +81,51 @@ public class NoteFormController {
         return sauvegarde;
     }
 
-    @FXML
-    public void enregistrer() {
-        if (!champsValides()) {
-            return;
+    /** Retourne la note validee (0-20) si le champ est correct, sinon affiche l'erreur inline et retourne null. */
+    private Double validerChampValeur() {
+        String texte = champValeur.getText();
+        if (texte == null || texte.isBlank()) {
+            masquerErreurValeur();
+            return null;
         }
 
         double valeur;
         try {
-            valeur = Double.parseDouble(champValeur.getText().trim().replace(",", "."));
+            valeur = Double.parseDouble(texte.trim().replace(",", "."));
         } catch (NumberFormatException e) {
-            afficherErreur("La note doit etre un nombre.");
-            return;
+            afficherErreurValeur("La note doit etre un nombre.");
+            return null;
         }
+
         if (valeur < 0 || valeur > 20) {
-            afficherErreur("La note doit etre comprise entre 0 et 20.");
+            afficherErreurValeur("La note doit etre comprise entre 0 et 20.");
+            return null;
+        }
+
+        masquerErreurValeur();
+        return valeur;
+    }
+
+    private void afficherErreurValeur(String message) {
+        lblErreurValeur.setText(message);
+        lblErreurValeur.setVisible(true);
+        lblErreurValeur.setManaged(true);
+        champValeur.setStyle("-fx-border-color: #D64545; -fx-border-width: 1.5;");
+    }
+
+    private void masquerErreurValeur() {
+        lblErreurValeur.setVisible(false);
+        lblErreurValeur.setManaged(false);
+        champValeur.setStyle("");
+    }
+
+    @FXML
+    public void enregistrer() {
+        Double valeur = validerChampValeur();
+        if (valeur == null && champValeur.getText() != null && !champValeur.getText().isBlank()) {
+            return; // erreur deja affichee par validerChampValeur()
+        }
+        if (!champsValides(valeur)) {
             return;
         }
 
@@ -124,13 +163,15 @@ public class NoteFormController {
         fermerFenetre();
     }
 
-    private boolean champsValides() {
+    private boolean champsValides(Double valeur) {
         boolean ok = comboEtudiant.getValue() != null
             && comboMatiere.getValue() != null
-            && champValeur.getText() != null && !champValeur.getText().isBlank()
+            && valeur != null
             && comboType.getValue() != null && !comboType.getValue().isBlank()
             && champDate.getValue() != null;
-        if (!ok) {
+        if (!ok && valeur == null) {
+            afficherErreurValeur("La note est obligatoire (entre 0 et 20).");
+        } else if (!ok) {
             afficherErreur("Tous les champs marques * sont obligatoires.");
         }
         return ok;
@@ -138,7 +179,7 @@ public class NoteFormController {
 
     private void afficherErreur(String message) {
         Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Erreur de saisie");
+        alert.setTitle("Erreur");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();

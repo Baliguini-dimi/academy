@@ -7,15 +7,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -52,7 +57,26 @@ public class NotesController {
             new javafx.beans.property.SimpleStringProperty(cellData.getValue().getDateEvaluation().toString())
         );
 
+        tableNotes.setPlaceholder(construireEtatVide());
+
         rafraichir();
+    }
+
+    private VBox construireEtatVide() {
+        Label titre = new Label("Aucune note");
+        titre.getStyleClass().add("empty-state-title");
+
+        Label texte = new Label("Aucune note n'est actuellement enregistree.");
+        texte.getStyleClass().add("empty-state-text");
+
+        Button bouton = new Button("+ Ajouter une note");
+        bouton.getStyleClass().add("btn-action-create");
+        bouton.setOnAction(e -> ouvrirFormulaireAjout());
+
+        VBox conteneur = new VBox(10, titre, texte, bouton);
+        conteneur.setAlignment(Pos.CENTER);
+        conteneur.setPadding(new Insets(40));
+        return conteneur;
     }
 
     @FXML
@@ -89,9 +113,10 @@ public class NotesController {
         }
 
         Alert confirmation = new Alert(AlertType.CONFIRMATION);
-        confirmation.setTitle("Confirmer la suppression");
+        confirmation.setTitle("Supprimer cette note ?");
         confirmation.setHeaderText(null);
-        confirmation.setContentText("Supprimer cette note de " + selection.getEtudiantNomComplet() + " en " + selection.getMatiereNom() + " ?");
+        confirmation.setContentText("Cette action est definitive. La note de "
+            + selection.getEtudiantNomComplet() + " en " + selection.getMatiereNom() + " sera supprimee.");
 
         Optional<ButtonType> reponse = confirmation.showAndWait();
         if (reponse.isPresent() && reponse.get() == ButtonType.OK) {
