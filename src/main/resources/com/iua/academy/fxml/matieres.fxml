@@ -7,7 +7,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <VBox spacing="20" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.iua.academy.controller.MatieresController">
@@ -18,16 +20,23 @@
     </VBox>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <TextField fx:id="champRecherche" promptText="Rechercher une matiere (nom, enseignant)" prefWidth="300" />
-        <Button text="Rechercher" styleClass="btn-secondary" onAction="#rechercher" />
-        <Button text="Modifier" styleClass="btn-secondary" onAction="#ouvrirFormulaireModification" />
-        <Button text="Supprimer" styleClass="btn-danger" onAction="#supprimerSelection" />
-        <Button text="+ Nouvelle matiere" styleClass="btn-primary" onAction="#ouvrirFormulaireAjout" />
+        <TextField fx:id="champRecherche" promptText="Rechercher une matiere : nom, enseignant..." prefWidth="300" />
+        <Button text="Rechercher" styleClass="btn-action-primary" onAction="#rechercher" />
+
+        <Region HBox.hgrow="ALWAYS" />
+
+        <Button text="Modifier" styleClass="btn-action-primary" onAction="#ouvrirFormulaireModification" />
+        <Button text="Supprimer" styleClass="btn-action-danger" onAction="#supprimerSelection" />
+        <Button text="+ Nouvelle matiere" styleClass="btn-action-create" onAction="#ouvrirFormulaireAjout">
+            <graphic>
+                <FontIcon iconLiteral="mdi2p-plus" iconSize="14" iconColor="WHITE" />
+            </graphic>
+        </Button>
     </HBox>
 
     <TableView fx:id="tableMatieres" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="colNom" text="Nom" prefWidth="200" />
+            <TableColumn fx:id="colNom" text="Nom" prefWidth="220" />
             <TableColumn fx:id="colCoefficient" text="Coefficient" prefWidth="100" />
             <TableColumn fx:id="colEnseignant" text="Enseignant" prefWidth="220" />
         </columns>
