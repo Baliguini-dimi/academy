@@ -4,30 +4,34 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 
 <ScrollPane fitToWidth="true" styleClass="content-area" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.iua.academy.controller.AboutController">
-    <VBox spacing="24" maxWidth="700">
+    <VBox spacing="24" maxWidth="640">
 
         <VBox spacing="4">
             <Label text="A propos" styleClass="page-title" />
-            <Label text="Informations sur l'application et son concepteur" styleClass="page-subtitle" />
+            <Label text="Informations sur l'application" styleClass="page-subtitle" />
         </VBox>
 
-        <!-- Carte application -->
+        <!-- ===== Bloc principal : l'application ===== -->
         <VBox styleClass="card" spacing="10">
-            <Label text="ACADEMY" styleClass="about-app-name" />
-            <Label text="Application desktop de gestion academique : etudiants, matieres, notes et suivi statistique." wrapText="true" styleClass="page-subtitle" />
-            <HBox spacing="24">
-                <VBox>
-                    <Label text="Version" styleClass="about-label-small" />
-                    <Label text="1.0.0" styleClass="about-value-small" />
-                </VBox>
+            <HBox alignment="BASELINE_LEFT" spacing="10">
+                <Label text="ACADEMY" styleClass="about-hero-title" />
+                <Label text="v1.0.0" styleClass="about-version-badge" />
+            </HBox>
+            <Label text="Logiciel de gestion academique" styleClass="about-hero-subtitle" />
+
+            <Region prefHeight="8" />
+
+            <Label text="A PROPOS D'ACADEMY" styleClass="section-label" />
+            <Label text="Academy est une application desktop concue pour simplifier la gestion des etudiants, des matieres et des resultats academiques : suivi des inscriptions, saisie des notes, calcul des moyennes et export de bulletins."
+                   wrapText="true" styleClass="about-description" />
+
+            <HBox spacing="32">
                 <VBox>
                     <Label text="Technologie" styleClass="about-label-small" />
                     <Label text="Java 17 - JavaFX 21 - SQLite" styleClass="about-value-small" />
@@ -35,19 +39,20 @@
             </HBox>
         </VBox>
 
-        <!-- Carte concepteur -->
-        <VBox styleClass="card" spacing="14" alignment="CENTER">
-            <Label text="LE CONCEPTEUR" styleClass="about-section-label" />
+        <!-- ===== Bloc secondaire : conception ===== -->
+        <VBox styleClass="card-secondary" spacing="12">
+            <Label text="CONCEPTION ET DEVELOPPEMENT" styleClass="section-label" />
 
-            <Label text="Dimitri Nelson BALIGUINI" styleClass="about-name" />
-            <Label text="Dem's" styleClass="about-tagline" />
-            <Label text="Developpeur Full-Stack" styleClass="about-role" />
-            <Label text="Abidjan, Cote d'Ivoire" styleClass="about-role" />
+            <VBox spacing="2">
+                <Label text="Dimitri Nelson BALIGUINI" styleClass="about-name-secondary" />
+                <Label text="Dem's - Developpeur Full-Stack" styleClass="about-role-secondary" />
+                <Label text="Abidjan, Cote d'Ivoire" styleClass="about-role-secondary" />
+            </VBox>
 
-            <HBox spacing="14" alignment="CENTER">
-                <Button text="Email" styleClass="btn-secondary" onAction="#ouvrirEmail" />
-                <Button text="GitHub" styleClass="btn-secondary" onAction="#ouvrirGithub" />
-                <Button text="LinkedIn" styleClass="btn-secondary" onAction="#ouvrirLinkedin" />
+            <HBox spacing="10">
+                <Button text="Email" styleClass="btn-action-neutral" onAction="#ouvrirEmail" />
+                <Button text="GitHub" styleClass="btn-action-neutral" onAction="#ouvrirGithub" />
+                <Button text="LinkedIn" styleClass="btn-action-neutral" onAction="#ouvrirLinkedin" />
             </HBox>
 
             <VBox styleClass="about-quote-box">

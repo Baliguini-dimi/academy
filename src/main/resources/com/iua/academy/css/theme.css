@@ -659,17 +659,36 @@
 .default-color4.chart-pie { -fx-pie-color: #1E8449; }
 
 /* ============================================================
-   ECRAN A PROPOS — inchange
+   ECRAN A PROPOS
    ============================================================ */
 
-.about-app-name {
+.about-hero-title {
     -fx-text-fill: -fx-navy;
-    -fx-font-size: 22px;
+    -fx-font-size: 30px;
     -fx-font-weight: bold;
 }
 
-.about-label-small {
+.about-version-badge {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 12px;
+    -fx-background-color: -fx-neutral;
+    -fx-background-radius: 4;
+    -fx-padding: 2 8 2 8;
+}
+
+.about-hero-subtitle {
     -fx-text-fill: -fx-text-gray;
+    -fx-font-size: 14px;
+}
+
+.about-description {
+    -fx-text-fill: -fx-text-gray;
+    -fx-font-size: 13px;
+    -fx-line-spacing: 3;
+}
+
+.about-label-small {
+    -fx-text-fill: -fx-text-muted;
     -fx-font-size: 11px;
 }
 
@@ -679,39 +698,38 @@
     -fx-font-weight: bold;
 }
 
-.about-section-label {
-    -fx-text-fill: -fx-sky;
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
+/* Card secondaire : moins de contraste que .card pour marquer
+   visuellement que ce bloc est d'importance secondaire */
+.card-secondary {
+    -fx-background-color: -fx-bg-light;
+    -fx-background-radius: 8;
+    -fx-padding: 20;
+    -fx-border-color: -fx-border-light;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
 }
 
-.about-name {
+.about-name-secondary {
     -fx-text-fill: -fx-navy;
-    -fx-font-size: 20px;
+    -fx-font-size: 15px;
     -fx-font-weight: bold;
 }
 
-.about-tagline {
-    -fx-text-fill: -fx-gold;
-    -fx-font-style: italic;
-    -fx-font-size: 14px;
-}
-
-.about-role {
-    -fx-text-fill: -fx-text-gray;
-    -fx-font-size: 13px;
+.about-role-secondary {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 12px;
 }
 
 .about-quote-box {
-    -fx-background-color: -fx-bg-light;
-    -fx-background-radius: 8;
-    -fx-padding: 18;
+    -fx-background-color: white;
+    -fx-background-radius: 6;
+    -fx-padding: 16;
 }
 
 .about-quote-text {
     -fx-text-fill: -fx-text-gray;
     -fx-font-style: italic;
-    -fx-font-size: 13px;
+    -fx-font-size: 12px;
 }
 
 /* ============================================================
