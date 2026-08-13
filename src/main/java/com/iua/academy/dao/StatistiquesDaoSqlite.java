@@ -1,13 +1,18 @@
 package com.iua.academy.dao;
 
+import com.iua.academy.model.ActiviteRecente;
 import com.iua.academy.util.DatabaseManager;
 
+import java.time.LocalDate;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class StatistiquesDaoSqlite implements StatistiquesDAO {
 
@@ -130,5 +135,56 @@ public class StatistiquesDaoSqlite implements StatistiquesDAO {
         } catch (SQLException e) {
             throw new RuntimeException("Erreur lors du calcul de la moyenne generale", e);
         }
+    }
+
+    @Override
+    public List<ActiviteRecente> activiteRecente(int limite) {
+        List<ActiviteRecente> resultats = new ArrayList<>();
+
+        String sqlEtudiants = """
+            SELECT prenom, nom, classe, date_creation
+            FROM etudiant
+            ORDER BY date_creation DESC
+            LIMIT ?
+            """;
+        try (PreparedStatement ps = getConnection().prepareStatement(sqlEtudiants)) {
+            ps.setInt(1, limite);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String description = rs.getString("prenom") + " " + rs.getString("nom")
+                        + " a rejoint " + rs.getString("classe");
+                    LocalDate date = LocalDate.parse(rs.getString("date_creation").substring(0, 10));
+                    resultats.add(new ActiviteRecente("etudiant", description, date));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors du chargement des inscriptions recentes", e);
+        }
+
+        String sqlNotes = """
+            SELECT e.prenom, e.nom, m.nom AS matiere, n.valeur, n.date_evaluation
+            FROM note n
+            JOIN etudiant e ON e.id = n.etudiant_id
+            JOIN matiere m ON m.id = n.matiere_id
+            ORDER BY n.date_evaluation DESC
+            LIMIT ?
+            """;
+        try (PreparedStatement ps = getConnection().prepareStatement(sqlNotes)) {
+            ps.setInt(1, limite);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String description = rs.getString("prenom") + " " + rs.getString("nom")
+                        + " - " + rs.getString("matiere") + " : "
+                        + String.format("%.1f", rs.getDouble("valeur")) + "/20";
+                    LocalDate date = LocalDate.parse(rs.getString("date_evaluation"));
+                    resultats.add(new ActiviteRecente("note", description, date));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors du chargement des notes recentes", e);
+        }
+
+        resultats.sort(Comparator.comparing(ActiviteRecente::getDate).reversed());
+        return resultats.size() > limite ? resultats.subList(0, limite) : resultats;
     }
 }

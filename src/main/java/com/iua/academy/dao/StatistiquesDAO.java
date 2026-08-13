@@ -18,4 +18,7 @@ public interface StatistiquesDAO {
 
     /** Moyenne generale ponderee par coefficient, tous etudiants et matieres confondus. */
     Double moyenneGenerale();
+
+    /** Combine les inscriptions d'etudiants et les notes recentes, triees par date decroissante. */
+    java.util.List<com.iua.academy.model.ActiviteRecente> activiteRecente(int limite);
 }

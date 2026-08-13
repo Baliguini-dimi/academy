@@ -17,16 +17,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +39,7 @@ import java.util.stream.Collectors;
 
 /**
  * Controleur de l'ecran de gestion des etudiants : liste, recherche, filtre par classe,
- * CRUD complet et affichage de la moyenne ponderee calculee a partir des notes.
+ * CRUD complet, moyenne ponderee, export bulletin PDF et etat vide personnalise.
  */
 public class EtudiantsController {
 
@@ -74,14 +77,33 @@ public class EtudiantsController {
         colMoyenne.setCellValueFactory(new PropertyValueFactory<>("moyenne"));
         colMoyenne.setCellFactory(colonne -> creerCelluleMoyenne());
 
+        tableEtudiants.setPlaceholder(construireEtatVide());
+
         chargerClassesDisponibles();
         rafraichir();
+    }
+
+    private VBox construireEtatVide() {
+        Label titre = new Label("Aucun etudiant");
+        titre.getStyleClass().add("empty-state-title");
+
+        Label texte = new Label("Aucun etudiant n'est actuellement enregistre.");
+        texte.getStyleClass().add("empty-state-text");
+
+        Button bouton = new Button("+ Ajouter un etudiant");
+        bouton.getStyleClass().add("btn-action-create");
+        bouton.setOnAction(e -> ouvrirFormulaireAjout());
+
+        VBox conteneur = new VBox(10, titre, texte, bouton);
+        conteneur.setAlignment(javafx.geometry.Pos.CENTER);
+        conteneur.setPadding(new javafx.geometry.Insets(40));
+        return conteneur;
     }
 
     private void chargerClassesDisponibles() {
         List<String> classes = etudiantDAO.listerClassesDistinctes();
         ObservableList<String> items = FXCollections.observableArrayList();
-        items.add(null); // "Toutes les classes" (promptText)
+        items.add(null);
         items.addAll(classes);
         comboFiltreClasse.setItems(items);
     }
@@ -131,15 +153,49 @@ public class EtudiantsController {
         }
 
         Alert confirmation = new Alert(AlertType.CONFIRMATION);
-        confirmation.setTitle("Confirmer la suppression");
+        confirmation.setTitle("Supprimer cet etudiant ?");
         confirmation.setHeaderText(null);
-        confirmation.setContentText("Supprimer definitivement " + selection.getNomComplet() + " ?");
+        confirmation.setContentText("Cette action est definitive. La fiche de "
+            + selection.getNomComplet() + " sera supprimee.");
 
         Optional<ButtonType> reponse = confirmation.showAndWait();
         if (reponse.isPresent() && reponse.get() == ButtonType.OK) {
             etudiantDAO.supprimer(selection.getId());
             chargerClassesDisponibles();
             rafraichir();
+        }
+    }
+
+    @FXML
+    public void exporterBulletin() {
+        Etudiant selection = tableEtudiants.getSelectionModel().getSelectedItem();
+        if (selection == null) {
+            afficherInfo("Selectionnez d'abord un etudiant dans la liste.");
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Enregistrer le bulletin");
+        fileChooser.setInitialFileName("bulletin_" + selection.getMatricule() + ".pdf");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichier PDF", "*.pdf"));
+
+        File destination = fileChooser.showSaveDialog(tableEtudiants.getScene().getWindow());
+        if (destination == null) {
+            return;
+        }
+
+        try {
+            List<NoteDetaillee> notes = noteDAO.listerParEtudiant(selection.getId());
+            Double moyenne = noteDAO.calculerMoyenneEtudiant(selection.getId());
+            String nomEtablissement = parametreDAO.obtenir("nom_etablissement", "Etablissement");
+            String anneeScolaire = parametreDAO.obtenir("annee_scolaire", "-");
+            double seuilValidation = Double.parseDouble(parametreDAO.obtenir("seuil_validation", "10"));
+
+            bulletinPdfGenerator.genererBulletin(destination, selection, notes, moyenne, nomEtablissement, anneeScolaire, seuilValidation);
+
+            afficherInfo("Bulletin genere : " + destination.getAbsolutePath());
+        } catch (IOException | NumberFormatException e) {
+            afficherErreur("Impossible de generer le bulletin PDF.");
         }
     }
 
@@ -208,43 +264,6 @@ public class EtudiantsController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    @FXML
-    public void exporterBulletin() {
-        Etudiant selection = tableEtudiants.getSelectionModel().getSelectedItem();
-        if (selection == null) {
-            afficherInfo("Selectionnez d'abord un etudiant dans la liste.");
-            return;
-        }
-
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Enregistrer le bulletin");
-        fileChooser.setInitialFileName("bulletin_" + selection.getMatricule() + ".pdf");
-        fileChooser.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("Fichier PDF", "*.pdf")
-        );
-
-        File destination = fileChooser.showSaveDialog(tableEtudiants.getScene().getWindow());
-        if (destination == null) {
-            return;
-        }
-
-        try {
-            List<NoteDetaillee> notes = noteDAO.listerParEtudiant(selection.getId());
-            Double moyenne = noteDAO.calculerMoyenneEtudiant(selection.getId());
-            String nomEtablissement = parametreDAO.obtenir("nom_etablissement", "Etablissement");
-            String anneeScolaire = parametreDAO.obtenir("annee_scolaire", "-");
-            double seuilValidation = Double.parseDouble(parametreDAO.obtenir("seuil_validation", "10"));
-
-            bulletinPdfGenerator.genererBulletin(
-                destination, selection, notes, moyenne, nomEtablissement, anneeScolaire, seuilValidation
-            );
-
-            afficherInfo("Bulletin genere : " + destination.getAbsolutePath());
-        } catch (IOException | NumberFormatException e) {
-            afficherErreur("Impossible de generer le bulletin PDF.");
-        }
     }
 
     private void afficherErreur(String message) {

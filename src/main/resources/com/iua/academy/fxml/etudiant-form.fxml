@@ -40,8 +40,8 @@
     </GridPane>
 
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Annuler" styleClass="btn-danger" onAction="#annuler" />
-        <Button text="Enregistrer" styleClass="btn-primary" onAction="#enregistrer" />
+        <Button text="Annuler" styleClass="btn-action-neutral" onAction="#annuler" />
+        <Button text="Enregistrer" styleClass="btn-action-primary" onAction="#enregistrer" />
     </HBox>
 
     <padding>

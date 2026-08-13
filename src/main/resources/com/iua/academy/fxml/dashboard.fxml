@@ -17,34 +17,38 @@
 
         <VBox spacing="4">
             <Label text="Tableau de bord" styleClass="page-title" />
-            <Label text="Vue d'ensemble en temps reel de la gestion academique" styleClass="page-subtitle" />
+            <Label text="Vue d'ensemble de la gestion academique" styleClass="page-subtitle" />
         </VBox>
 
-        <!-- Cards KPI -->
+        <!-- Cartes statistiques -->
         <HBox spacing="20">
-            <VBox styleClass="card" prefWidth="200">
+            <VBox styleClass="card" prefWidth="220" spacing="4">
                 <Label fx:id="lblNbEtudiants" text="0" styleClass="card-stat-value" />
                 <Label text="Etudiants inscrits" styleClass="card-stat-label" />
+                <Label text="Donnees actuelles" styleClass="card-stat-meta" />
             </VBox>
-            <VBox styleClass="card" prefWidth="200">
+            <VBox styleClass="card" prefWidth="220" spacing="4">
                 <Label fx:id="lblNbMatieres" text="0" styleClass="card-stat-value" />
                 <Label text="Matieres enseignees" styleClass="card-stat-label" />
+                <Label text="Donnees actuelles" styleClass="card-stat-meta" />
             </VBox>
-            <VBox styleClass="card" prefWidth="200">
+            <VBox styleClass="card" prefWidth="220" spacing="4">
                 <Label fx:id="lblNbNotes" text="0" styleClass="card-stat-value" />
                 <Label text="Notes saisies" styleClass="card-stat-label" />
+                <Label text="Donnees actuelles" styleClass="card-stat-meta" />
             </VBox>
-            <VBox styleClass="card" prefWidth="200">
+            <VBox styleClass="card" prefWidth="220" spacing="4">
                 <Label fx:id="lblMoyenneGenerale" text="-" styleClass="card-stat-value" />
                 <Label text="Moyenne generale" styleClass="card-stat-label" />
+                <Label text="Toutes matieres confondues" styleClass="card-stat-meta" />
             </VBox>
         </HBox>
 
         <!-- Ligne 1 de graphiques -->
         <HBox spacing="20">
-            <VBox styleClass="card" HBox.hgrow="ALWAYS">
+            <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="4">
                 <Label text="Etudiants par classe" styleClass="card-stat-label" />
-                <BarChart fx:id="chartClasses" legendVisible="false" prefHeight="280">
+                <BarChart fx:id="chartClasses" legendVisible="false" prefHeight="260">
                     <xAxis>
                         <CategoryAxis fx:id="axeXClasses" />
                     </xAxis>
@@ -53,17 +57,17 @@
                     </yAxis>
                 </BarChart>
             </VBox>
-            <VBox styleClass="card" HBox.hgrow="ALWAYS">
+            <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="4">
                 <Label text="Repartition des notes par mention" styleClass="card-stat-label" />
-                <PieChart fx:id="chartMentions" prefHeight="280" legendSide="RIGHT" />
+                <PieChart fx:id="chartMentions" prefHeight="260" legendSide="RIGHT" />
             </VBox>
         </HBox>
 
         <!-- Ligne 2 de graphiques -->
         <HBox spacing="20">
-            <VBox styleClass="card" HBox.hgrow="ALWAYS">
+            <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="4">
                 <Label text="Moyenne par matiere" styleClass="card-stat-label" />
-                <BarChart fx:id="chartMatieres" legendVisible="false" prefHeight="280">
+                <BarChart fx:id="chartMatieres" legendVisible="false" prefHeight="260">
                     <xAxis>
                         <CategoryAxis fx:id="axeXMatieres" />
                     </xAxis>
@@ -72,9 +76,9 @@
                     </yAxis>
                 </BarChart>
             </VBox>
-            <VBox styleClass="card" HBox.hgrow="ALWAYS">
+            <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="4">
                 <Label text="Notes saisies par semaine" styleClass="card-stat-label" />
-                <LineChart fx:id="chartEvolution" legendVisible="false" prefHeight="280">
+                <LineChart fx:id="chartEvolution" legendVisible="false" prefHeight="260">
                     <xAxis>
                         <CategoryAxis fx:id="axeXEvolution" />
                     </xAxis>
@@ -85,8 +89,14 @@
             </VBox>
         </HBox>
 
+        <!-- Activite recente -->
+        <VBox styleClass="card" spacing="10">
+            <Label text="Activite recente" styleClass="card-stat-label" />
+            <VBox fx:id="listeActivite" spacing="0" />
+        </VBox>
+
         <padding>
-            <Insets top="0" right="4" bottom="20" left="0" />
+            <Insets top="0" right="4" bottom="30" left="0" />
         </padding>
 
     </VBox>

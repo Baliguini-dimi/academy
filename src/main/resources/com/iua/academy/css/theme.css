@@ -713,3 +713,30 @@
     -fx-font-style: italic;
     -fx-font-size: 13px;
 }
+
+/* ============================================================
+   ACTIVITE RECENTE (dashboard)
+   ============================================================ */
+
+.activity-row {
+    -fx-border-color: transparent transparent -fx-border-light transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.activity-desc {
+    -fx-text-fill: -fx-text-gray;
+    -fx-font-size: 13px;
+}
+
+.activity-date {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 12px;
+}
+
+.activity-icon-etudiant {
+    -fx-icon-color: -fx-sky;
+}
+
+.activity-icon-note {
+    -fx-icon-color: -fx-gold;
+}

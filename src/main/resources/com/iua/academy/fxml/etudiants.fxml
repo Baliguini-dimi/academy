@@ -8,7 +8,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <VBox spacing="20" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.iua.academy.controller.EtudiantsController">
@@ -19,13 +21,20 @@
     </VBox>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <TextField fx:id="champRecherche" promptText="Rechercher un etudiant (nom, prenom, matricule)" prefWidth="260" />
-        <ComboBox fx:id="comboFiltreClasse" promptText="Toutes les classes" prefWidth="150" />
-        <Button text="Rechercher" styleClass="btn-secondary" onAction="#rechercher" />
-        <Button text="Modifier" styleClass="btn-secondary" onAction="#ouvrirFormulaireModification" />
-        <Button text="Supprimer" styleClass="btn-danger" onAction="#supprimerSelection" />
-        <Button text="Bulletin PDF" styleClass="btn-secondary" onAction="#exporterBulletin" />
-        <Button text="+ Nouvel etudiant" styleClass="btn-primary" onAction="#ouvrirFormulaireAjout" />
+        <TextField fx:id="champRecherche" promptText="Rechercher un etudiant : nom, prenom, matricule..." prefWidth="320" />
+        <ComboBox fx:id="comboFiltreClasse" promptText="Toutes les classes" prefWidth="160" />
+        <Button text="Rechercher" styleClass="btn-action-primary" onAction="#rechercher" />
+
+        <Region HBox.hgrow="ALWAYS" />
+
+        <Button text="Modifier" styleClass="btn-action-primary" onAction="#ouvrirFormulaireModification" />
+        <Button text="Bulletin PDF" styleClass="btn-action-neutral" onAction="#exporterBulletin" />
+        <Button text="Supprimer" styleClass="btn-action-danger" onAction="#supprimerSelection" />
+        <Button text="+ Nouvel etudiant" styleClass="btn-action-create" onAction="#ouvrirFormulaireAjout">
+            <graphic>
+                <FontIcon iconLiteral="mdi2p-plus" iconSize="14" iconColor="WHITE" />
+            </graphic>
+        </Button>
     </HBox>
 
     <TableView fx:id="tableEtudiants" VBox.vgrow="ALWAYS">
