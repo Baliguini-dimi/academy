@@ -4,7 +4,11 @@ import com.iua.academy.dao.EtudiantDAO;
 import com.iua.academy.dao.EtudiantDaoSqlite;
 import com.iua.academy.dao.NoteDAO;
 import com.iua.academy.dao.NoteDaoSqlite;
+import com.iua.academy.dao.ParametreDAO;
+import com.iua.academy.dao.ParametreDaoSqlite;
 import com.iua.academy.model.Etudiant;
+import com.iua.academy.model.NoteDetaillee;
+import com.iua.academy.util.BulletinPdfGenerator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -21,14 +26,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
- * Controleur de l'ecran de gestion des etudiants : liste, recherche, CRUD complet
- * et affichage de la moyenne ponderee calculee a partir des notes.
+ * Controleur de l'ecran de gestion des etudiants : liste, recherche, filtre par classe,
+ * CRUD complet et affichage de la moyenne ponderee calculee a partir des notes.
  */
 public class EtudiantsController {
 
@@ -48,9 +56,13 @@ public class EtudiantsController {
     private TableColumn<Etudiant, Double> colMoyenne;
     @FXML
     private TextField champRecherche;
+    @FXML
+    private ComboBox<String> comboFiltreClasse;
 
     private final EtudiantDAO etudiantDAO = new EtudiantDaoSqlite();
     private final NoteDAO noteDAO = new NoteDaoSqlite();
+    private final ParametreDAO parametreDAO = new ParametreDaoSqlite();
+    private final BulletinPdfGenerator bulletinPdfGenerator = new BulletinPdfGenerator();
 
     @FXML
     public void initialize() {
@@ -62,17 +74,37 @@ public class EtudiantsController {
         colMoyenne.setCellValueFactory(new PropertyValueFactory<>("moyenne"));
         colMoyenne.setCellFactory(colonne -> creerCelluleMoyenne());
 
+        chargerClassesDisponibles();
         rafraichir();
+    }
+
+    private void chargerClassesDisponibles() {
+        List<String> classes = etudiantDAO.listerClassesDistinctes();
+        ObservableList<String> items = FXCollections.observableArrayList();
+        items.add(null); // "Toutes les classes" (promptText)
+        items.addAll(classes);
+        comboFiltreClasse.setItems(items);
     }
 
     @FXML
     public void rechercher() {
         String motCle = champRecherche.getText();
+        String classeChoisie = comboFiltreClasse.getValue();
+
+        List<Etudiant> resultats;
         if (motCle == null || motCle.isBlank()) {
-            chargerListe(etudiantDAO.listerTous());
+            resultats = etudiantDAO.listerTous();
         } else {
-            chargerListe(etudiantDAO.rechercher(motCle.trim()));
+            resultats = etudiantDAO.rechercher(motCle.trim());
         }
+
+        if (classeChoisie != null && !classeChoisie.isBlank()) {
+            resultats = resultats.stream()
+                .filter(e -> classeChoisie.equals(e.getClasse()))
+                .collect(Collectors.toList());
+        }
+
+        chargerListe(resultats);
     }
 
     @FXML
@@ -106,6 +138,7 @@ public class EtudiantsController {
         Optional<ButtonType> reponse = confirmation.showAndWait();
         if (reponse.isPresent() && reponse.get() == ButtonType.OK) {
             etudiantDAO.supprimer(selection.getId());
+            chargerClassesDisponibles();
             rafraichir();
         }
     }
@@ -129,6 +162,7 @@ public class EtudiantsController {
             fenetre.showAndWait();
 
             if (controller.isSauvegarde()) {
+                chargerClassesDisponibles();
                 rafraichir();
             }
         } catch (IOException e) {
@@ -141,7 +175,6 @@ public class EtudiantsController {
     }
 
     private void chargerListe(List<Etudiant> etudiants) {
-        // Calcule la moyenne de chaque etudiant a partir de ses notes
         for (Etudiant e : etudiants) {
             e.setMoyenne(noteDAO.calculerMoyenneEtudiant(e.getId()));
         }
@@ -149,7 +182,6 @@ public class EtudiantsController {
         tableEtudiants.setItems(data);
     }
 
-    /** Cellule custom : affiche "-" si pas de note, sinon la moyenne sur 2 decimales avec une couleur selon le niveau. */
     private TableCell<Etudiant, Double> creerCelluleMoyenne() {
         return new TableCell<>() {
             @Override
@@ -173,6 +205,51 @@ public class EtudiantsController {
     private void afficherInfo(String message) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    @FXML
+    public void exporterBulletin() {
+        Etudiant selection = tableEtudiants.getSelectionModel().getSelectedItem();
+        if (selection == null) {
+            afficherInfo("Selectionnez d'abord un etudiant dans la liste.");
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Enregistrer le bulletin");
+        fileChooser.setInitialFileName("bulletin_" + selection.getMatricule() + ".pdf");
+        fileChooser.getExtensionFilters().add(
+            new FileChooser.ExtensionFilter("Fichier PDF", "*.pdf")
+        );
+
+        File destination = fileChooser.showSaveDialog(tableEtudiants.getScene().getWindow());
+        if (destination == null) {
+            return;
+        }
+
+        try {
+            List<NoteDetaillee> notes = noteDAO.listerParEtudiant(selection.getId());
+            Double moyenne = noteDAO.calculerMoyenneEtudiant(selection.getId());
+            String nomEtablissement = parametreDAO.obtenir("nom_etablissement", "Etablissement");
+            String anneeScolaire = parametreDAO.obtenir("annee_scolaire", "-");
+            double seuilValidation = Double.parseDouble(parametreDAO.obtenir("seuil_validation", "10"));
+
+            bulletinPdfGenerator.genererBulletin(
+                destination, selection, notes, moyenne, nomEtablissement, anneeScolaire, seuilValidation
+            );
+
+            afficherInfo("Bulletin genere : " + destination.getAbsolutePath());
+        } catch (IOException | NumberFormatException e) {
+            afficherErreur("Impossible de generer le bulletin PDF.");
+        }
+    }
+
+    private void afficherErreur(String message) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Erreur");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();

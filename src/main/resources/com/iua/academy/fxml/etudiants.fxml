@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -18,10 +19,12 @@
     </VBox>
 
     <HBox spacing="10" alignment="CENTER_LEFT">
-        <TextField fx:id="champRecherche" promptText="Rechercher un etudiant (nom, prenom, matricule)" prefWidth="300" />
+        <TextField fx:id="champRecherche" promptText="Rechercher un etudiant (nom, prenom, matricule)" prefWidth="260" />
+        <ComboBox fx:id="comboFiltreClasse" promptText="Toutes les classes" prefWidth="150" />
         <Button text="Rechercher" styleClass="btn-secondary" onAction="#rechercher" />
         <Button text="Modifier" styleClass="btn-secondary" onAction="#ouvrirFormulaireModification" />
         <Button text="Supprimer" styleClass="btn-danger" onAction="#supprimerSelection" />
+        <Button text="Bulletin PDF" styleClass="btn-secondary" onAction="#exporterBulletin" />
         <Button text="+ Nouvel etudiant" styleClass="btn-primary" onAction="#ouvrirFormulaireAjout" />
     </HBox>
 

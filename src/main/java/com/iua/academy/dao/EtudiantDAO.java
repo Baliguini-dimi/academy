@@ -25,4 +25,8 @@ public interface EtudiantDAO {
     boolean supprimer(int id);
 
     boolean matriculeExiste(String matricule, Integer idAExclure);
+
+    List<Etudiant> listerParClasse(String classe);
+
+    List<String> listerClassesDistinctes();
 }

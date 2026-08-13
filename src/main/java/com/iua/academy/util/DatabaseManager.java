@@ -19,7 +19,7 @@ public final class DatabaseManager {
 
     private static final DatabaseManager INSTANCE = new DatabaseManager();
 
-    private static final String APP_FOLDER_NAME = ".academy";
+    private static final String APP_FOLDER_NAME = "Academy";
     private static final String DB_FILE_NAME = "academy.db";
     private static final String SCHEMA_RESOURCE = "/db/schema.sql";
 
@@ -76,7 +76,7 @@ public final class DatabaseManager {
      */
     private Path resolveDatabasePath() {
         String userHome = System.getProperty("user.home");
-        return Paths.get(userHome, APP_FOLDER_NAME, DB_FILE_NAME);
+        return Paths.get(userHome, "Documents", APP_FOLDER_NAME, DB_FILE_NAME);
     }
 
     private void runSchemaScript() throws SQLException, IOException {

@@ -33,6 +33,7 @@ public class App extends Application {
         primaryStage.setMinWidth(WINDOW_MIN_WIDTH);
         primaryStage.setMinHeight(WINDOW_MIN_HEIGHT);
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
 
         try {
             primaryStage.getIcons().add(

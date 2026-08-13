@@ -3,35 +3,73 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.iua.academy.controller.MainLayoutController">
 
-    <!-- Barre laterale de navigation -->
     <left>
         <VBox styleClass="sidebar">
-            <VBox>
-                <Label text="ACADEMY" styleClass="sidebar-logo" />
-                <Label text="Institut Universitaire d'Abidjan" styleClass="subtitle">
+            <padding>
+                <Insets top="24" right="20" bottom="0" left="20" />
+            </padding>
+
+            <VBox alignment="CENTER_LEFT" spacing="8">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
+                        <image>
+                            <Image url="@../images/logo.png" />
+                        </image>
+                    </ImageView>
+                    <Label text="ACADEMY" styleClass="sidebar-logo" />
+                </HBox>
+                <Label text="Gestion academique" styleClass="subtitle">
                     <VBox.margin>
                         <Insets left="20" bottom="20" />
                     </VBox.margin>
                 </Label>
             </VBox>
 
-            <Button fx:id="btnDashboard" text="Tableau de bord" styleClass="nav-button" onAction="#afficherDashboard" maxWidth="Infinity" />
-            <Button fx:id="btnEtudiants" text="Etudiants" styleClass="nav-button" onAction="#afficherEtudiants" maxWidth="Infinity" />
-            <Button fx:id="btnMatieres" text="Matieres" styleClass="nav-button" onAction="#afficherMatieres" maxWidth="Infinity" />
-            <Button fx:id="btnNotes" text="Notes" styleClass="nav-button" onAction="#afficherNotes" maxWidth="Infinity" />
-            <Button fx:id="btnParametres" text="Parametres" styleClass="nav-button" onAction="#afficherParametres" maxWidth="Infinity" />
+            <Button fx:id="btnDashboard" text="Tableau de bord" styleClass="nav-button" onAction="#afficherDashboard" maxWidth="Infinity">
+                <graphic>
+                    <FontIcon iconLiteral="mdi2v-view-dashboard-outline" iconSize="18" styleClass="nav-icon" />
+                </graphic>
+            </Button>
+            <Button fx:id="btnEtudiants" text="Etudiants" styleClass="nav-button" onAction="#afficherEtudiants" maxWidth="Infinity">
+                <graphic>
+                    <FontIcon iconLiteral="mdi2a-account-group-outline" iconSize="18" styleClass="nav-icon" />
+                </graphic>
+            </Button>
+            <Button fx:id="btnMatieres" text="Matieres" styleClass="nav-button" onAction="#afficherMatieres" maxWidth="Infinity">
+                <graphic>
+                    <FontIcon iconLiteral="mdi2b-book-open-page-variant-outline" iconSize="18" styleClass="nav-icon" />
+                </graphic>
+            </Button>
+            <Button fx:id="btnNotes" text="Notes" styleClass="nav-button" onAction="#afficherNotes" maxWidth="Infinity">
+                <graphic>
+                    <FontIcon iconLiteral="mdi2c-clipboard-check-outline" iconSize="18" styleClass="nav-icon" />
+                </graphic>
+            </Button>
+            <Button fx:id="btnParametres" text="Parametres" styleClass="nav-button" onAction="#afficherParametres" maxWidth="Infinity">
+                <graphic>
+                    <FontIcon iconLiteral="mdi2c-cog-outline" iconSize="18" styleClass="nav-icon" />
+                </graphic>
+            </Button>
+            <Button fx:id="btnAbout" text="A propos" styleClass="nav-button" onAction="#afficherAbout" maxWidth="Infinity">
+                <graphic>
+                    <FontIcon iconLiteral="mdi2i-information-outline" iconSize="18" styleClass="nav-icon" />
+                </graphic>
+            </Button>
         </VBox>
     </left>
 
-    <!-- Zone de contenu dynamique -->
     <center>
         <StackPane fx:id="contentArea" styleClass="content-area" />
     </center>

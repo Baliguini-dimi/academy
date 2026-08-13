@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS etudiant (
 
 CREATE TABLE IF NOT EXISTS matiere (
     id           INTEGER PRIMARY KEY AUTOINCREMENT,
-    nom          TEXT NOT NULL,
+    nom          TEXT NOT NULL UNIQUE,
     coefficient  REAL NOT NULL DEFAULT 1,
     enseignant   TEXT
 );

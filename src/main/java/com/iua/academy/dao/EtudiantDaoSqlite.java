@@ -168,4 +168,36 @@ public class EtudiantDaoSqlite implements EtudiantDAO {
             throw new RuntimeException("Erreur lors de la verification du matricule", e);
         }
     }
+
+    @Override
+    public List<Etudiant> listerParClasse(String classe) {
+        String sql = "SELECT * FROM etudiant WHERE classe = ? ORDER BY nom, prenom";
+        List<Etudiant> resultats = new ArrayList<>();
+        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+            ps.setString(1, classe);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    resultats.add(mapper(rs));
+                }
+            }
+            return resultats;
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors du filtrage par classe", e);
+        }
+    }
+
+    @Override
+    public List<String> listerClassesDistinctes() {
+        String sql = "SELECT DISTINCT classe FROM etudiant ORDER BY classe";
+        List<String> resultats = new ArrayList<>();
+        try (Statement st = getConnection().createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                resultats.add(rs.getString("classe"));
+            }
+            return resultats;
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors du listing des classes", e);
+        }
+    }
 }

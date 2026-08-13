@@ -1,41 +1,81 @@
 /*
- * Theme Academy - inspire de l'identite visuelle de l'Institut Universitaire d'Abidjan
- * Palette :
- *   Bleu marine  : #0F2A4D  (navigation, titres forts)
- *   Bleu ciel    : #2E9FE0  (accents, actions secondaires)
- *   Or/Jaune     : #F4A81D  (actions principales, mise en avant)
- *   Fond clair   : #F5F8FC
- *   Texte gris   : #4A4A4A
+ * ACADEMY — Design System
+ * Logiciel institutionnel de gestion academique (multi-etablissement)
+ *
+ * Palette (ne pas modifier) :
+ *   Bleu marine  #0F2A4D  -> sidebar, titres forts, headers de tableaux
+ *   Bleu ciel    #2E9FE0  -> action principale, selection, liens, accents
+ *   Or           #F4A81D  -> creation / action importante (usage parcimonieux)
+ *   Rouge        #D64545  -> danger / suppression UNIQUEMENT
+ *   Fond         #F5F8FC  -> legerement bleute, jamais blanc pur
+ *   Texte gris   #4A4A4A
+ *
+ * Echelle d'espacement de reference : 8 / 16 / 24 / 32 / 40 px
+ * Rayons : 6-8px pour cards/champs/tableaux, legerement plus pour les boutons
  */
 
 .root {
     -fx-navy: #0F2A4D;
     -fx-sky: #2E9FE0;
     -fx-gold: #F4A81D;
+    -fx-danger: #D64545;
+    -fx-neutral: #E7ECF2;
+    -fx-neutral-text: #33475B;
     -fx-bg-light: #F5F8FC;
     -fx-text-gray: #4A4A4A;
+    -fx-text-muted: #8493A6;
+    -fx-border-light: #E2E8F0;
 
     -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
     -fx-background-color: -fx-bg-light;
 }
 
-/* ===== Barre laterale de navigation ===== */
+/* ============================================================
+   TYPOGRAPHIE
+   ============================================================ */
+
+.page-title {
+    -fx-text-fill: -fx-navy;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+.page-subtitle {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 13px;
+}
+
+.section-label {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+
 .sidebar {
     -fx-background-color: -fx-navy;
     -fx-padding: 0;
-    -fx-pref-width: 230;
+    -fx-pref-width: 240;
 }
 
 .sidebar-logo {
     -fx-text-fill: white;
-    -fx-font-size: 20px;
+    -fx-font-size: 19px;
     -fx-font-weight: bold;
-    -fx-padding: 24 20 24 20;
 }
 
 .sidebar-logo .subtitle {
-    -fx-text-fill: derive(white, -20%);
+    -fx-text-fill: rgba(255, 255, 255, 0.55);
     -fx-font-size: 11px;
+}
+
+.nav-group-label {
+    -fx-text-fill: rgba(255, 255, 255, 0.35);
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
 }
 
 .nav-button {
@@ -43,10 +83,11 @@
     -fx-text-fill: rgba(255, 255, 255, 0.85);
     -fx-font-size: 14px;
     -fx-alignment: center-left;
-    -fx-padding: 14 20 14 20;
-    -fx-pref-width: 230;
+    -fx-padding: 12 20 12 20;
+    -fx-pref-width: 240;
     -fx-cursor: hand;
     -fx-background-radius: 0;
+    -fx-graphic-text-gap: 12;
 }
 
 .nav-button:hover {
@@ -60,34 +101,64 @@
     -fx-font-weight: bold;
 }
 
-/* ===== Zone de contenu ===== */
-.content-area {
-    -fx-background-color: -fx-bg-light;
-    -fx-padding: 30;
+.nav-icon {
+    -fx-icon-color: rgba(255, 255, 255, 0.85);
 }
 
-.page-title {
+.nav-button:hover .nav-icon,
+.nav-button-active .nav-icon {
+    -fx-icon-color: white;
+}
+
+/* ============================================================
+   BARRE SUPERIEURE (topbar)
+   ============================================================ */
+
+.topbar {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent -fx-border-light transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 14 24 14 24;
+}
+
+.topbar-title {
     -fx-text-fill: -fx-navy;
-    -fx-font-size: 26px;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
 
-.page-subtitle {
-    -fx-text-fill: -fx-text-gray;
-    -fx-font-size: 13px;
+.topbar-status {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 12px;
 }
 
-/* ===== Cards ===== */
+.topbar-status-dot {
+    -fx-fill: -fx-sky;
+}
+
+/* ============================================================
+   ZONE DE CONTENU
+   ============================================================ */
+
+.content-area {
+    -fx-background-color: -fx-bg-light;
+    -fx-padding: 32;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+
 .card {
     -fx-background-color: white;
-    -fx-background-radius: 10;
+    -fx-background-radius: 8;
     -fx-padding: 20;
-    -fx-effect: dropshadow(gaussian, rgba(15,42,77,0.08), 12, 0, 0, 4);
+    -fx-effect: dropshadow(gaussian, rgba(15,42,77,0.06), 8, 0, 0, 2);
 }
 
 .card-stat-value {
     -fx-text-fill: -fx-navy;
-    -fx-font-size: 28px;
+    -fx-font-size: 30px;
     -fx-font-weight: bold;
 }
 
@@ -96,7 +167,65 @@
     -fx-font-size: 12px;
 }
 
-/* ===== Boutons ===== */
+.card-stat-meta {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 11px;
+}
+
+/* ============================================================
+   BOUTONS — nouveau systeme semantique
+   (nouvelles classes, n'affectent aucun ecran tant que le FXML
+   n'est pas mis a jour dans les etapes suivantes)
+   ============================================================ */
+
+.btn-action-primary,
+.btn-action-create,
+.btn-action-danger,
+.btn-action-neutral {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 9 18 9 18;
+    -fx-cursor: hand;
+}
+
+.btn-action-primary {
+    -fx-background-color: -fx-sky;
+    -fx-text-fill: white;
+}
+.btn-action-primary:hover   { -fx-background-color: derive(#2E9FE0, -10%); }
+.btn-action-primary:pressed { -fx-background-color: derive(#2E9FE0, -20%); }
+.btn-action-primary:disabled { -fx-opacity: 0.5; }
+
+.btn-action-create {
+    -fx-background-color: -fx-gold;
+    -fx-text-fill: white;
+}
+.btn-action-create:hover   { -fx-background-color: derive(#F4A81D, -10%); }
+.btn-action-create:pressed { -fx-background-color: derive(#F4A81D, -20%); }
+.btn-action-create:disabled { -fx-opacity: 0.5; }
+
+.btn-action-danger {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-danger;
+    -fx-border-color: -fx-danger;
+    -fx-border-radius: 6;
+}
+.btn-action-danger:hover   { -fx-background-color: rgba(214,69,69,0.08); }
+.btn-action-danger:pressed { -fx-background-color: rgba(214,69,69,0.15); }
+.btn-action-danger:disabled { -fx-opacity: 0.5; }
+
+.btn-action-neutral {
+    -fx-background-color: -fx-neutral;
+    -fx-text-fill: -fx-neutral-text;
+}
+.btn-action-neutral:hover   { -fx-background-color: derive(#E7ECF2, -8%); }
+.btn-action-neutral:pressed { -fx-background-color: derive(#E7ECF2, -15%); }
+.btn-action-neutral:disabled { -fx-opacity: 0.5; }
+
+/* ---- Anciennes classes (inchangees, encore utilisees par les ecrans
+   pas encore refondus — a retirer une fois toutes les etapes terminees) ---- */
+
 .btn-primary {
     -fx-background-color: -fx-gold;
     -fx-text-fill: white;
@@ -105,10 +234,7 @@
     -fx-padding: 10 20 10 20;
     -fx-cursor: hand;
 }
-
-.btn-primary:hover {
-    -fx-background-color: derive(#F4A81D, -10%);
-}
+.btn-primary:hover { -fx-background-color: derive(#F4A81D, -10%); }
 
 .btn-secondary {
     -fx-background-color: -fx-sky;
@@ -118,10 +244,7 @@
     -fx-padding: 10 20 10 20;
     -fx-cursor: hand;
 }
-
-.btn-secondary:hover {
-    -fx-background-color: derive(#2E9FE0, -10%);
-}
+.btn-secondary:hover { -fx-background-color: derive(#2E9FE0, -10%); }
 
 .btn-danger {
     -fx-background-color: transparent;
@@ -133,31 +256,376 @@
     -fx-cursor: hand;
 }
 
-/* ===== Tableaux ===== */
-.table-view {
+/* ============================================================
+   CHAMPS DE SAISIE — TextField, PasswordField
+   ============================================================ */
+
+.text-field, .text-area, .password-field {
     -fx-background-color: white;
-    -fx-background-radius: 10;
+    -fx-border-color: -fx-border-light;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 8 12 8 12;
+    -fx-font-size: 13px;
+    -fx-text-fill: -fx-text-gray;
+    -fx-prompt-text-fill: -fx-text-muted;
 }
 
-.table-view .column-header-background {
+.text-field:hover, .text-area:hover {
+    -fx-border-color: derive(#E2E8F0, -20%);
+}
+
+.text-field:focused, .text-area:focused, .password-field:focused {
+    -fx-border-color: -fx-sky;
+    -fx-border-width: 1.5;
+    -fx-background-color: white;
+}
+
+/* ============================================================
+   COMBOBOX
+   ============================================================ */
+
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: -fx-border-light;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 2;
+}
+
+.combo-box:hover {
+    -fx-border-color: derive(#E2E8F0, -20%);
+}
+
+.combo-box:focused {
+    -fx-border-color: -fx-sky;
+    -fx-border-width: 1.5;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: -fx-text-gray;
+    -fx-font-size: 13px;
+    -fx-padding: 6 8 6 10;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.combo-box .arrow {
+    -fx-background-color: -fx-text-muted;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: white;
+    -fx-background-radius: 6;
+    -fx-effect: dropshadow(gaussian, rgba(15,42,77,0.15), 10, 0, 0, 3);
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: -fx-bg-light;
+}
+
+.combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: -fx-sky;
+    -fx-text-fill: white;
+}
+
+/* ============================================================
+   DATEPICKER
+   ============================================================ */
+
+.date-picker {
+    -fx-background-color: white;
+    -fx-border-color: -fx-border-light;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+.date-picker:focused {
+    -fx-border-color: -fx-sky;
+    -fx-border-width: 1.5;
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0 6 6 0;
+}
+
+.date-picker .arrow {
+    -fx-background-color: -fx-text-muted;
+}
+
+.date-picker-popup .month-year-pane {
     -fx-background-color: -fx-navy;
-    -fx-background-radius: 10 10 0 0;
 }
 
-.table-view .column-header-background .label {
+.date-picker-popup .spinner .label {
     -fx-text-fill: white;
     -fx-font-weight: bold;
+}
+
+.date-picker-popup > * > .calendar-grid {
+    -fx-background-color: white;
+}
+
+.date-picker-popup .day-cell:hover {
+    -fx-background-color: -fx-bg-light;
+}
+
+.date-picker-popup .day-cell:selected {
+    -fx-background-color: -fx-sky;
+    -fx-text-fill: white;
+    -fx-background-radius: 4;
+}
+
+.date-picker-popup .today {
+    -fx-border-color: -fx-sky;
+    -fx-border-width: 1;
+}
+
+/* ============================================================
+   CHECKBOX / RADIOBUTTON
+   ============================================================ */
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color: -fx-border-light;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.check-box:selected .box {
+    -fx-background-color: -fx-sky;
+    -fx-border-color: -fx-sky;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+}
+
+.radio-button .radio {
+    -fx-background-color: white;
+    -fx-border-color: -fx-border-light;
+}
+
+.radio-button:selected .radio .dot {
+    -fx-background-color: -fx-sky;
+}
+
+/* ============================================================
+   SCROLLBAR — discrete, pas de rendu "Windows/JavaFX ancien"
+   ============================================================ */
+
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: rgba(15,42,77,0.18);
+    -fx-background-radius: 6;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: rgba(15,42,77,0.32);
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-shape: " ";
+}
+
+/* ============================================================
+   TABPANE (reserve, pas encore utilise dans l'appli)
+   ============================================================ */
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent -fx-border-light transparent;
+}
+
+.tab-pane .tab {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-padding: 10 18 10 18;
+}
+
+.tab-pane .tab:selected {
+    -fx-border-color: transparent transparent -fx-sky transparent;
+    -fx-border-width: 0 0 2 0;
+}
+
+.tab-pane .tab .tab-label {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 13px;
+}
+
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: -fx-navy;
+    -fx-font-weight: bold;
+}
+
+/* ============================================================
+   TOOLTIP
+   ============================================================ */
+
+.tooltip {
+    -fx-background-color: -fx-navy;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-background-radius: 4;
+    -fx-padding: 6 10 6 10;
+}
+
+/* ============================================================
+   DIALOGUES (Alert)
+   ============================================================ */
+
+.dialog-pane {
+    -fx-background-color: white;
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: white;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: -fx-navy;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.dialog-pane .content.label {
+    -fx-text-fill: -fx-text-gray;
+    -fx-font-size: 13px;
+}
+
+.dialog-pane .button-bar .button {
+    -fx-background-color: -fx-neutral;
+    -fx-text-fill: -fx-neutral-text;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 8 16 8 16;
+    -fx-cursor: hand;
+}
+
+.dialog-pane .button-bar .button:default {
+    -fx-background-color: -fx-sky;
+    -fx-text-fill: white;
+}
+
+.dialog-pane .button-bar .button:hover {
+    -fx-opacity: 0.9;
+}
+
+/* ============================================================
+   TABLEAUX
+   ============================================================ */
+
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: -fx-navy;
+    -fx-border-color: transparent;
+    -fx-size: 42;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-alignment: CENTER-LEFT;
+}
+
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-table-cell-border-color: transparent;
+    -fx-cell-size: 40px;
 }
 
 .table-row-cell:odd {
     -fx-background-color: #FAFCFE;
 }
 
-.table-row-cell:selected {
-    -fx-background-color: derive(#2E9FE0, 70%);
+.table-row-cell:hover {
+    -fx-background-color: derive(#2E9FE0, 88%);
 }
 
-/* ===== Graphiques (dashboard) ===== */
+.table-row-cell:selected {
+    -fx-background-color: derive(#2E9FE0, 75%);
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: -fx-navy;
+}
+
+.table-cell {
+    -fx-text-fill: -fx-text-gray;
+    -fx-font-size: 13px;
+    -fx-padding: 8 10 8 10;
+    -fx-alignment: CENTER-LEFT;
+}
+
+.table-view .placeholder .label {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 13px;
+}
+
+/* ============================================================
+   ETATS VIDES personnalises
+   ============================================================ */
+
+.empty-state-title {
+    -fx-text-fill: -fx-navy;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.empty-state-text {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 13px;
+}
+
+/* ============================================================
+   FEEDBACK (messages courts)
+   ============================================================ */
+
+.feedback-success {
+    -fx-text-fill: #1E8449;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.feedback-error {
+    -fx-text-fill: -fx-danger;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+/* ============================================================
+   GRAPHIQUES (dashboard) — inchange
+   ============================================================ */
+
 .chart {
     -fx-padding: 10 0 0 0;
 }
@@ -184,14 +652,16 @@
     -fx-stroke-width: 2px;
 }
 
-/* Palette des 5 tranches du PieChart (Insuffisant -> Excellent) */
 .default-color0.chart-pie { -fx-pie-color: #D64545; }
 .default-color1.chart-pie { -fx-pie-color: #F4A81D; }
 .default-color2.chart-pie { -fx-pie-color: #2E9FE0; }
 .default-color3.chart-pie { -fx-pie-color: #0F2A4D; }
 .default-color4.chart-pie { -fx-pie-color: #1E8449; }
 
-/* ===== Ecran A propos ===== */
+/* ============================================================
+   ECRAN A PROPOS — inchange
+   ============================================================ */
+
 .about-app-name {
     -fx-text-fill: -fx-navy;
     -fx-font-size: 22px;
