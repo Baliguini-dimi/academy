@@ -40,3 +40,6 @@ CREATE TABLE IF NOT EXISTS parametre (
 INSERT OR IGNORE INTO parametre (cle, valeur) VALUES ('nom_etablissement', 'Mon Etablissement');
 INSERT OR IGNORE INTO parametre (cle, valeur) VALUES ('annee_scolaire', '2025-2026');
 INSERT OR IGNORE INTO parametre (cle, valeur) VALUES ('seuil_validation', '10');
+INSERT OR IGNORE INTO parametre (cle, valeur) VALUES ('adresse_etablissement', '');
+INSERT OR IGNORE INTO parametre (cle, valeur) VALUES ('telephone_etablissement', '');
+INSERT OR IGNORE INTO parametre (cle, valeur) VALUES ('email_etablissement', '');

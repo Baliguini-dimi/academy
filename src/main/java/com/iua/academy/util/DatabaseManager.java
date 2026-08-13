@@ -95,4 +95,9 @@ public final class DatabaseManager {
             }
         }
     }
+
+    /** Chemin absolu du fichier de base, utilise notamment pour l'export de sauvegarde. */
+    public java.nio.file.Path getDatabaseFilePath() {
+        return resolveDatabasePath();
+    }
 }
