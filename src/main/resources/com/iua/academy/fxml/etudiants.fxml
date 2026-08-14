@@ -23,14 +23,14 @@
     <HBox spacing="10" alignment="CENTER_LEFT">
         <TextField fx:id="champRecherche" promptText="Rechercher un etudiant : nom, prenom, matricule..." prefWidth="320" />
         <ComboBox fx:id="comboFiltreClasse" promptText="Toutes les classes" prefWidth="160" />
-        <Button text="Rechercher" styleClass="btn-action-primary" onAction="#rechercher" />
+        <Button text="Rechercher" styleClass="btn-action-primary" onAction="#rechercher" minWidth="-Infinity" />
 
         <Region HBox.hgrow="ALWAYS" />
 
-        <Button text="Modifier" styleClass="btn-action-primary" onAction="#ouvrirFormulaireModification" />
-        <Button text="Bulletin PDF" styleClass="btn-action-neutral" onAction="#exporterBulletin" />
-        <Button text="Supprimer" styleClass="btn-action-danger" onAction="#supprimerSelection" />
-        <Button text="+ Nouvel etudiant" styleClass="btn-action-create" onAction="#ouvrirFormulaireAjout">
+        <Button text="Modifier" styleClass="btn-action-primary" onAction="#ouvrirFormulaireModification" minWidth="-Infinity" />
+        <Button text="Bulletin PDF" styleClass="btn-action-neutral" onAction="#exporterBulletin" minWidth="-Infinity" />
+        <Button text="Supprimer" styleClass="btn-action-danger" onAction="#supprimerSelection" minWidth="-Infinity" />
+        <Button text="+ Nouvel etudiant" styleClass="btn-action-create" onAction="#ouvrirFormulaireAjout" minWidth="-Infinity">
             <graphic>
                 <FontIcon iconLiteral="mdi2p-plus" iconSize="14" iconColor="WHITE" />
             </graphic>

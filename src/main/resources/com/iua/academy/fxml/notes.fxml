@@ -21,13 +21,13 @@
 
     <HBox spacing="10" alignment="CENTER_LEFT">
         <TextField fx:id="champRecherche" promptText="Rechercher : etudiant ou matiere..." prefWidth="280" />
-        <Button text="Rechercher" styleClass="btn-action-primary" onAction="#rechercher" />
+        <Button text="Rechercher" styleClass="btn-action-primary" onAction="#rechercher" minWidth="-Infinity" />
 
         <Region HBox.hgrow="ALWAYS" />
 
-        <Button text="Modifier" styleClass="btn-action-primary" onAction="#ouvrirFormulaireModification" />
-        <Button text="Supprimer" styleClass="btn-action-danger" onAction="#supprimerSelection" />
-        <Button text="+ Nouvelle note" styleClass="btn-action-create" onAction="#ouvrirFormulaireAjout">
+        <Button text="Modifier" styleClass="btn-action-primary" onAction="#ouvrirFormulaireModification" minWidth="-Infinity" />
+        <Button text="Supprimer" styleClass="btn-action-danger" onAction="#supprimerSelection" minWidth="-Infinity" />
+        <Button text="+ Nouvelle note" styleClass="btn-action-create" onAction="#ouvrirFormulaireAjout" minWidth="-Infinity">
             <graphic>
                 <FontIcon iconLiteral="mdi2p-plus" iconSize="14" iconColor="WHITE" />
             </graphic>
