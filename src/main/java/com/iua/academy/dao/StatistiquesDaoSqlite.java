@@ -187,4 +187,63 @@ public class StatistiquesDaoSqlite implements StatistiquesDAO {
         resultats.sort(Comparator.comparing(ActiviteRecente::getDate).reversed());
         return resultats.size() > limite ? resultats.subList(0, limite) : resultats;
     }
+
+    @Override
+    public LinkedHashMap<String, Double> moyenneParSemaine(int nombreSemaines) {
+        String sql = """
+            SELECT strftime('%Y-W%W', date_evaluation) AS semaine, AVG(valeur) AS moyenne
+            FROM note
+            GROUP BY semaine
+            ORDER BY semaine DESC
+            LIMIT ?
+            """;
+        LinkedHashMap<String, Double> brut = new LinkedHashMap<>();
+        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+            ps.setInt(1, nombreSemaines);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    brut.put(rs.getString("semaine"), rs.getDouble("moyenne"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors du calcul de l'evolution des moyennes", e);
+        }
+
+        LinkedHashMap<String, Double> ordonne = new LinkedHashMap<>();
+        brut.entrySet().stream()
+            .sorted((a, b) -> a.getKey().compareTo(b.getKey()))
+            .forEach(entry -> ordonne.put(entry.getKey(), entry.getValue()));
+        return ordonne;
+    }
+
+    @Override
+    public Double tauxReussite(double seuil) {
+        String sql = "SELECT COUNT(*) AS total, SUM(CASE WHEN valeur >= ? THEN 1 ELSE 0 END) AS reussies FROM note";
+        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+            ps.setDouble(1, seuil);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int total = rs.getInt("total");
+                    if (total == 0) {
+                        return null;
+                    }
+                    return rs.getInt("reussies") * 100.0 / total;
+                }
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors du calcul du taux de reussite", e);
+        }
+    }
+
+    @Override
+    public int notesSaisiesCeMois() {
+        String sql = "SELECT COUNT(*) AS total FROM note WHERE strftime('%Y-%m', date_evaluation) = strftime('%Y-%m', 'now')";
+        try (Statement st = getConnection().createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            return rs.next() ? rs.getInt("total") : 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors du comptage des notes du mois", e);
+        }
+    }
 }

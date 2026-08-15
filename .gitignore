@@ -20,3 +20,9 @@ Thumbs.db
 
 # Logs
 *.log
+
+dist/
+
+target/
+dist/
+dist-input/

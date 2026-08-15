@@ -14,17 +14,23 @@
 
     <Label text="Fiche matiere" styleClass="page-title" />
 
-    <GridPane hgap="12" vgap="12">
+    <GridPane hgap="12" vgap="6">
         <columnConstraints>
             <ColumnConstraints minWidth="120" />
             <ColumnConstraints minWidth="220" />
         </columnConstraints>
 
         <Label text="Nom *" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-        <TextField fx:id="champNom" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+        <VBox spacing="2" GridPane.rowIndex="0" GridPane.columnIndex="1">
+            <TextField fx:id="champNom" />
+            <Label fx:id="lblErreurNom" styleClass="feedback-error" visible="false" managed="false" />
+        </VBox>
 
         <Label text="Coefficient *" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-        <TextField fx:id="champCoefficient" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+        <VBox spacing="2" GridPane.rowIndex="1" GridPane.columnIndex="1">
+            <TextField fx:id="champCoefficient" />
+            <Label fx:id="lblErreurCoefficient" styleClass="feedback-error" visible="false" managed="false" />
+        </VBox>
 
         <Label text="Enseignant" GridPane.rowIndex="2" GridPane.columnIndex="0" />
         <TextField fx:id="champEnseignant" GridPane.rowIndex="2" GridPane.columnIndex="1" />

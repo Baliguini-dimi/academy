@@ -1,103 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <ScrollPane fitToWidth="true" styleClass="content-area" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.iua.academy.controller.DashboardController">
-    <VBox spacing="24">
+    <HBox spacing="24">
 
-        <VBox spacing="4">
-            <Label text="Tableau de bord" styleClass="page-title" />
-            <Label text="Vue d'ensemble de la gestion academique" styleClass="page-subtitle" />
+        <!-- ===== Colonne principale ===== -->
+        <VBox spacing="24" HBox.hgrow="ALWAYS">
+
+            <VBox spacing="4">
+                <Label text="Tableau de bord" styleClass="page-title" />
+                <Label text="Vue d'ensemble de votre activite academique" styleClass="page-subtitle" />
+            </VBox>
+
+            <!-- Cartes KPI -->
+            <HBox spacing="16">
+                <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="4">
+                    <Label fx:id="lblNbEtudiants" text="0" styleClass="card-stat-value" />
+                    <Label text="Etudiants" styleClass="card-stat-label" />
+                </VBox>
+                <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="4">
+                    <Label fx:id="lblNbMatieres" text="0" styleClass="card-stat-value" />
+                    <Label text="Matieres" styleClass="card-stat-label" />
+                </VBox>
+                <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="4">
+                    <Label fx:id="lblNbNotes" text="0" styleClass="card-stat-value" />
+                    <Label text="Notes" styleClass="card-stat-label" />
+                </VBox>
+                <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="4">
+                    <Label fx:id="lblMoyenneGenerale" text="-" styleClass="card-stat-value" />
+                    <Label text="Moyenne generale" styleClass="card-stat-label" />
+                </VBox>
+            </HBox>
+
+            <!-- Graphiques -->
+            <HBox spacing="16">
+                <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="4">
+                    <Label text="Evolution des moyennes" styleClass="card-stat-label" />
+                    <LineChart fx:id="chartEvolution" legendVisible="false" prefHeight="240">
+                        <xAxis>
+                            <CategoryAxis fx:id="axeXEvolution" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis fx:id="axeYEvolution" lowerBound="0" upperBound="20" />
+                        </yAxis>
+                    </LineChart>
+                </VBox>
+                <VBox styleClass="card" prefWidth="320" spacing="4">
+                    <Label text="Repartition par classe" styleClass="card-stat-label" />
+                    <StackPane>
+                        <PieChart fx:id="chartClasses" prefHeight="240" legendSide="RIGHT" labelsVisible="false" />
+                        <StackPane mouseTransparent="true" maxWidth="90" maxHeight="90">
+                            <Circle radius="45" fill="WHITE" />
+                            <VBox alignment="CENTER">
+                                <Label fx:id="lblDonutTotal" text="0" styleClass="card-stat-value" />
+                                <Label text="etudiants" styleClass="about-label-small" />
+                            </VBox>
+                        </StackPane>
+                    </StackPane>
+                </VBox>
+            </HBox>
+
+            <!-- Actions rapides + statistiques rapides -->
+            <HBox spacing="16">
+                <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="14">
+                    <Label text="Actions rapides" styleClass="card-stat-label" />
+                    <HBox spacing="10">
+                        <Button text="+ Nouvel etudiant" styleClass="btn-action-create" onAction="#nouvelEtudiant" />
+                        <Button text="+ Nouvelle matiere" styleClass="btn-action-primary" onAction="#nouvelleMatiere" />
+                        <Button text="+ Nouvelle note" styleClass="btn-action-primary" onAction="#nouvelleNote" />
+                        <Button text="Generer un bulletin" styleClass="btn-action-neutral" onAction="#allerVersBulletin" />
+                    </HBox>
+
+                    <Label text="Acces rapide" styleClass="card-stat-label">
+                        <VBox.margin>
+                            <Insets top="8" />
+                        </VBox.margin>
+                    </Label>
+                    <HBox spacing="10">
+                        <Button text="Liste des etudiants" styleClass="btn-action-neutral" onAction="#allerVersEtudiants" />
+                        <Button text="Liste des matieres" styleClass="btn-action-neutral" onAction="#allerVersMatieres" />
+                        <Button text="Saisie des notes" styleClass="btn-action-neutral" onAction="#allerVersNotes" />
+                    </HBox>
+                </VBox>
+
+                <VBox styleClass="card" prefWidth="260" spacing="12">
+                    <Label text="Statistiques rapides" styleClass="card-stat-label" />
+                    <VBox spacing="10">
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <FontIcon iconLiteral="mdi2c-check-circle-outline" iconSize="16" styleClass="activity-icon-note" />
+                            <Label text="Taux de reussite" styleClass="page-subtitle" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label fx:id="lblTauxReussite" text="-" styleClass="about-value-small" />
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <FontIcon iconLiteral="mdi2c-clipboard-text-outline" iconSize="16" styleClass="activity-icon-etudiant" />
+                            <Label text="Notes ce mois-ci" styleClass="page-subtitle" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label fx:id="lblNotesCeMois" text="-" styleClass="about-value-small" />
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </HBox>
+
+            <padding>
+                <Insets top="0" right="4" bottom="30" left="0" />
+            </padding>
         </VBox>
 
-        <!-- Cartes statistiques -->
-        <HBox spacing="20">
-            <VBox styleClass="card" prefWidth="220" spacing="4">
-                <Label fx:id="lblNbEtudiants" text="0" styleClass="card-stat-value" />
-                <Label text="Etudiants inscrits" styleClass="card-stat-label" />
-                <Label text="Donnees actuelles" styleClass="card-stat-meta" />
-            </VBox>
-            <VBox styleClass="card" prefWidth="220" spacing="4">
-                <Label fx:id="lblNbMatieres" text="0" styleClass="card-stat-value" />
-                <Label text="Matieres enseignees" styleClass="card-stat-label" />
-                <Label text="Donnees actuelles" styleClass="card-stat-meta" />
-            </VBox>
-            <VBox styleClass="card" prefWidth="220" spacing="4">
-                <Label fx:id="lblNbNotes" text="0" styleClass="card-stat-value" />
-                <Label text="Notes saisies" styleClass="card-stat-label" />
-                <Label text="Donnees actuelles" styleClass="card-stat-meta" />
-            </VBox>
-            <VBox styleClass="card" prefWidth="220" spacing="4">
-                <Label fx:id="lblMoyenneGenerale" text="-" styleClass="card-stat-value" />
-                <Label text="Moyenne generale" styleClass="card-stat-label" />
-                <Label text="Toutes matieres confondues" styleClass="card-stat-meta" />
-            </VBox>
-        </HBox>
-
-        <!-- Ligne 1 de graphiques -->
-        <HBox spacing="20">
-            <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="4">
-                <Label text="Etudiants par classe" styleClass="card-stat-label" />
-                <BarChart fx:id="chartClasses" legendVisible="false" prefHeight="260">
-                    <xAxis>
-                        <CategoryAxis fx:id="axeXClasses" />
-                    </xAxis>
-                    <yAxis>
-                        <NumberAxis fx:id="axeYClasses" />
-                    </yAxis>
-                </BarChart>
-            </VBox>
-            <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="4">
-                <Label text="Repartition des notes par mention" styleClass="card-stat-label" />
-                <PieChart fx:id="chartMentions" prefHeight="260" legendSide="RIGHT" />
-            </VBox>
-        </HBox>
-
-        <!-- Ligne 2 de graphiques -->
-        <HBox spacing="20">
-            <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="4">
-                <Label text="Moyenne par matiere" styleClass="card-stat-label" />
-                <BarChart fx:id="chartMatieres" legendVisible="false" prefHeight="260">
-                    <xAxis>
-                        <CategoryAxis fx:id="axeXMatieres" />
-                    </xAxis>
-                    <yAxis>
-                        <NumberAxis fx:id="axeYMatieres" lowerBound="0" upperBound="20" />
-                    </yAxis>
-                </BarChart>
-            </VBox>
-            <VBox styleClass="card" HBox.hgrow="ALWAYS" spacing="4">
-                <Label text="Notes saisies par semaine" styleClass="card-stat-label" />
-                <LineChart fx:id="chartEvolution" legendVisible="false" prefHeight="260">
-                    <xAxis>
-                        <CategoryAxis fx:id="axeXEvolution" />
-                    </xAxis>
-                    <yAxis>
-                        <NumberAxis fx:id="axeYEvolution" />
-                    </yAxis>
-                </LineChart>
-            </VBox>
-        </HBox>
-
-        <!-- Activite recente -->
-        <VBox styleClass="card" spacing="10">
+        <!-- ===== Colonne activite recente ===== -->
+        <VBox styleClass="card" prefWidth="300" spacing="10">
             <Label text="Activite recente" styleClass="card-stat-label" />
             <VBox fx:id="listeActivite" spacing="0" />
         </VBox>
 
-        <padding>
-            <Insets top="0" right="4" bottom="30" left="0" />
-        </padding>
-
-    </VBox>
+    </HBox>
 </ScrollPane>

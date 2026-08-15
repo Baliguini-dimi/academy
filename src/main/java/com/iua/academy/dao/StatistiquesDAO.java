@@ -21,4 +21,13 @@ public interface StatistiquesDAO {
 
     /** Combine les inscriptions d'etudiants et les notes recentes, triees par date decroissante. */
     java.util.List<com.iua.academy.model.ActiviteRecente> activiteRecente(int limite);
+
+    /** Moyenne des notes par semaine (evolution), sur les N dernieres semaines, ordre chronologique. */
+    java.util.LinkedHashMap<String, Double> moyenneParSemaine(int nombreSemaines);
+
+    /** Pourcentage de notes superieures ou egales au seuil donne (null si aucune note). */
+    Double tauxReussite(double seuil);
+
+    /** Nombre de notes saisies au cours du mois calendaire courant. */
+    int notesSaisiesCeMois();
 }

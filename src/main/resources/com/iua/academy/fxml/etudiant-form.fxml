@@ -5,39 +5,69 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="18" styleClass="card" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+<VBox spacing="20" styleClass="card" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.iua.academy.controller.EtudiantFormController">
 
     <Label text="Fiche etudiant" styleClass="page-title" />
 
-    <GridPane hgap="12" vgap="12">
-        <columnConstraints>
-            <javafx.scene.layout.ColumnConstraints minWidth="120" />
-            <javafx.scene.layout.ColumnConstraints minWidth="220" />
-        </columnConstraints>
+    <!-- ===== Informations personnelles ===== -->
+    <VBox spacing="10">
+        <Label text="INFORMATIONS PERSONNELLES" styleClass="section-label" />
 
-        <Label text="Matricule *" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-        <TextField fx:id="champMatricule" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+        <GridPane hgap="12" vgap="6">
+            <columnConstraints>
+                <ColumnConstraints minWidth="130" />
+                <ColumnConstraints minWidth="240" />
+            </columnConstraints>
 
-        <Label text="Nom *" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-        <TextField fx:id="champNom" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+            <Label text="Matricule *" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <VBox spacing="2" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <TextField fx:id="champMatricule" />
+                <Label fx:id="lblErreurMatricule" styleClass="feedback-error" visible="false" managed="false" />
+            </VBox>
 
-        <Label text="Prenom *" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-        <TextField fx:id="champPrenom" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+            <Label text="Nom *" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <VBox spacing="2" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <TextField fx:id="champNom" />
+                <Label fx:id="lblErreurNom" styleClass="feedback-error" visible="false" managed="false" />
+            </VBox>
 
-        <Label text="Date de naissance" GridPane.rowIndex="3" GridPane.columnIndex="0" />
-        <DatePicker fx:id="champDateNaissance" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+            <Label text="Prenom *" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <VBox spacing="2" GridPane.rowIndex="2" GridPane.columnIndex="1">
+                <TextField fx:id="champPrenom" />
+                <Label fx:id="lblErreurPrenom" styleClass="feedback-error" visible="false" managed="false" />
+            </VBox>
 
-        <Label text="Classe *" GridPane.rowIndex="4" GridPane.columnIndex="0" />
-        <TextField fx:id="champClasse" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+            <Label text="Date de naissance" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+            <DatePicker fx:id="champDateNaissance" GridPane.rowIndex="3" GridPane.columnIndex="1" />
 
-        <Label text="Email" GridPane.rowIndex="5" GridPane.columnIndex="0" />
-        <TextField fx:id="champEmail" GridPane.rowIndex="5" GridPane.columnIndex="1" />
-    </GridPane>
+            <Label text="Email" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+            <TextField fx:id="champEmail" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+        </GridPane>
+    </VBox>
+
+    <!-- ===== Informations academiques ===== -->
+    <VBox spacing="10">
+        <Label text="INFORMATIONS ACADEMIQUES" styleClass="section-label" />
+
+        <GridPane hgap="12" vgap="6">
+            <columnConstraints>
+                <ColumnConstraints minWidth="130" />
+                <ColumnConstraints minWidth="240" />
+            </columnConstraints>
+
+            <Label text="Classe *" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <VBox spacing="2" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <TextField fx:id="champClasse" />
+                <Label fx:id="lblErreurClasse" styleClass="feedback-error" visible="false" managed="false" />
+            </VBox>
+        </GridPane>
+    </VBox>
 
     <HBox spacing="10" alignment="CENTER_RIGHT">
         <Button text="Annuler" styleClass="btn-action-neutral" onAction="#annuler" />

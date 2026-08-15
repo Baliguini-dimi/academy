@@ -25,8 +25,9 @@
 
         <Region HBox.hgrow="ALWAYS" />
 
-        <Button text="Modifier" styleClass="btn-action-primary" onAction="#ouvrirFormulaireModification" minWidth="-Infinity" />
-        <Button text="Supprimer" styleClass="btn-action-danger" onAction="#supprimerSelection" minWidth="-Infinity" />
+        <Label fx:id="lblIndicationSelection" text="Selectionnez une matiere pour la modifier ou la supprimer." styleClass="page-subtitle" />
+        <Button fx:id="btnModifier" text="Modifier" styleClass="btn-action-primary" onAction="#ouvrirFormulaireModification" minWidth="-Infinity" />
+        <Button fx:id="btnSupprimer" text="Supprimer" styleClass="btn-action-danger" onAction="#supprimerSelection" minWidth="-Infinity" />
         <Button text="+ Nouvelle matiere" styleClass="btn-action-create" onAction="#ouvrirFormulaireAjout" minWidth="-Infinity">
             <graphic>
                 <FontIcon iconLiteral="mdi2p-plus" iconSize="14" iconColor="WHITE" />

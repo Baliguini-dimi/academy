@@ -23,20 +23,13 @@
                 <Label text="ACADEMY" styleClass="about-hero-title" />
                 <Label text="v1.0.0" styleClass="about-version-badge" />
             </HBox>
-            <Label text="Logiciel de gestion academique" styleClass="about-hero-subtitle" />
+            <Label text="Gestion academique" styleClass="about-hero-subtitle" />
 
             <Region prefHeight="8" />
 
             <Label text="A PROPOS D'ACADEMY" styleClass="section-label" />
-            <Label text="Academy est une application desktop concue pour simplifier la gestion des etudiants, des matieres et des resultats academiques : suivi des inscriptions, saisie des notes, calcul des moyennes et export de bulletins."
+            <Label text="ACADEMY est une solution desktop concue pour simplifier la gestion academique : gestion des etudiants, gestion des matieres, saisie et suivi des notes, statistiques et suivi des performances, generation de bulletins."
                    wrapText="true" styleClass="about-description" />
-
-            <HBox spacing="32">
-                <VBox>
-                    <Label text="Technologie" styleClass="about-label-small" />
-                    <Label text="Java 17 - JavaFX 21 - SQLite" styleClass="about-value-small" />
-                </VBox>
-            </HBox>
         </VBox>
 
         <!-- ===== Bloc secondaire : conception ===== -->
@@ -45,8 +38,7 @@
 
             <VBox spacing="2">
                 <Label text="Dimitri Nelson BALIGUINI" styleClass="about-name-secondary" />
-                <Label text="Dem's - Developpeur Full-Stack" styleClass="about-role-secondary" />
-                <Label text="Abidjan, Cote d'Ivoire" styleClass="about-role-secondary" />
+                <Label text="Developpeur Full-Stack" styleClass="about-role-secondary" />
             </VBox>
 
             <HBox spacing="10">
@@ -56,10 +48,12 @@
             </HBox>
 
             <VBox styleClass="about-quote-box">
-                <Label text="&quot;J'ai voulu qu'Academy ressemble a ce que j'aurais aime utiliser a mes debuts : simple, honnete, sans floritures. Ce projet porte un peu de mon parcours - entre la Centrafrique et la Cote d'Ivoire - et une conviction : la technologie doit d'abord servir les gens avant d'impressionner.&quot;"
+                <Label text="ACADEMY est ne d'une volonte simple : concevoir un outil academique fiable, clair et accessible, pense autour des besoins reels de ceux qui gerent et suivent les parcours etudiants. Concu et developpe par Dimitri Nelson BALIGUINI, developpeur Full-Stack, ACADEMY privilegie une approche simple : transformer des taches administratives quotidiennes en une experience de gestion plus fluide, structuree et efficace."
                        wrapText="true" styleClass="about-quote-text" textAlignment="CENTER" />
             </VBox>
         </VBox>
+
+        <Label text="Java 17  -  JavaFX 21  -  SQLite" styleClass="about-tech-discrete" />
 
         <padding>
             <Insets top="0" right="4" bottom="30" left="0" />

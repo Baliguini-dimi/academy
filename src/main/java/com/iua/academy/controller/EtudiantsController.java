@@ -9,6 +9,7 @@ import com.iua.academy.dao.ParametreDaoSqlite;
 import com.iua.academy.model.Etudiant;
 import com.iua.academy.model.NoteDetaillee;
 import com.iua.academy.util.BulletinPdfGenerator;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -33,15 +34,21 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Controleur de l'ecran de gestion des etudiants : liste, recherche, filtre par classe,
- * CRUD complet, moyenne ponderee, export bulletin PDF et etat vide personnalise.
+ * Controleur de l'ecran de gestion des etudiants : liste, recherche, filtre par classe, tri,
+ * CRUD complet, moyenne ponderee, export bulletin PDF, actions desactivees sans selection.
  */
 public class EtudiantsController {
+
+    private static final String TRI_NOM_ASC = "Nom (A-Z)";
+    private static final String TRI_NOM_DESC = "Nom (Z-A)";
+    private static final String TRI_MOYENNE_ASC = "Moyenne (croissante)";
+    private static final String TRI_MOYENNE_DESC = "Moyenne (decroissante)";
 
     @FXML
     private TableView<Etudiant> tableEtudiants;
@@ -61,6 +68,16 @@ public class EtudiantsController {
     private TextField champRecherche;
     @FXML
     private ComboBox<String> comboFiltreClasse;
+    @FXML
+    private ComboBox<String> comboTri;
+    @FXML
+    private Button btnModifier;
+    @FXML
+    private Button btnBulletin;
+    @FXML
+    private Button btnSupprimer;
+    @FXML
+    private Label lblIndicationSelection;
 
     private final EtudiantDAO etudiantDAO = new EtudiantDaoSqlite();
     private final NoteDAO noteDAO = new NoteDaoSqlite();
@@ -78,6 +95,18 @@ public class EtudiantsController {
         colMoyenne.setCellFactory(colonne -> creerCelluleMoyenne());
 
         tableEtudiants.setPlaceholder(construireEtatVide());
+
+        // Actions desactivees proprement tant qu'aucune ligne n'est selectionnee
+        var selectionVide = Bindings.isNull(tableEtudiants.getSelectionModel().selectedItemProperty());
+        btnModifier.disableProperty().bind(selectionVide);
+        btnBulletin.disableProperty().bind(selectionVide);
+        btnSupprimer.disableProperty().bind(selectionVide);
+        lblIndicationSelection.visibleProperty().bind(selectionVide);
+        lblIndicationSelection.managedProperty().bind(selectionVide);
+
+        comboTri.setItems(FXCollections.observableArrayList(TRI_NOM_ASC, TRI_NOM_DESC, TRI_MOYENNE_ASC, TRI_MOYENNE_DESC));
+        comboTri.setValue(TRI_NOM_ASC);
+        comboTri.valueProperty().addListener((obs, ancien, nouveau) -> rechercher());
 
         chargerClassesDisponibles();
         rafraichir();
@@ -138,7 +167,6 @@ public class EtudiantsController {
     public void ouvrirFormulaireModification() {
         Etudiant selection = tableEtudiants.getSelectionModel().getSelectedItem();
         if (selection == null) {
-            afficherInfo("Selectionnez d'abord un etudiant dans la liste.");
             return;
         }
         ouvrirFormulaire(selection);
@@ -148,15 +176,14 @@ public class EtudiantsController {
     public void supprimerSelection() {
         Etudiant selection = tableEtudiants.getSelectionModel().getSelectedItem();
         if (selection == null) {
-            afficherInfo("Selectionnez d'abord un etudiant dans la liste.");
             return;
         }
 
         Alert confirmation = new Alert(AlertType.CONFIRMATION);
-        confirmation.setTitle("Supprimer cet etudiant ?");
+        confirmation.setTitle("Supprimer l'etudiant ?");
         confirmation.setHeaderText(null);
-        confirmation.setContentText("Cette action est definitive. La fiche de "
-            + selection.getNomComplet() + " sera supprimee.");
+        confirmation.setContentText("Cette action supprimera definitivement la fiche de "
+            + selection.getNomComplet() + " ainsi que ses notes associees.");
 
         Optional<ButtonType> reponse = confirmation.showAndWait();
         if (reponse.isPresent() && reponse.get() == ButtonType.OK) {
@@ -170,7 +197,6 @@ public class EtudiantsController {
     public void exporterBulletin() {
         Etudiant selection = tableEtudiants.getSelectionModel().getSelectedItem();
         if (selection == null) {
-            afficherInfo("Selectionnez d'abord un etudiant dans la liste.");
             return;
         }
 
@@ -234,8 +260,24 @@ public class EtudiantsController {
         for (Etudiant e : etudiants) {
             e.setMoyenne(noteDAO.calculerMoyenneEtudiant(e.getId()));
         }
-        ObservableList<Etudiant> data = FXCollections.observableArrayList(etudiants);
+
+        Comparator<Etudiant> comparateur = construireComparateur();
+        List<Etudiant> trie = etudiants.stream().sorted(comparateur).collect(Collectors.toList());
+
+        ObservableList<Etudiant> data = FXCollections.observableArrayList(trie);
         tableEtudiants.setItems(data);
+    }
+
+    private Comparator<Etudiant> construireComparateur() {
+        String critere = comboTri.getValue();
+        if (TRI_NOM_DESC.equals(critere)) {
+            return Comparator.comparing(Etudiant::getNom, String.CASE_INSENSITIVE_ORDER).reversed();
+        } else if (TRI_MOYENNE_ASC.equals(critere)) {
+            return Comparator.comparing((Etudiant e) -> e.getMoyenne() == null ? -1.0 : e.getMoyenne());
+        } else if (TRI_MOYENNE_DESC.equals(critere)) {
+            return Comparator.comparing((Etudiant e) -> e.getMoyenne() == null ? -1.0 : e.getMoyenne()).reversed();
+        }
+        return Comparator.comparing(Etudiant::getNom, String.CASE_INSENSITIVE_ORDER);
     }
 
     private TableCell<Etudiant, Double> creerCelluleMoyenne() {

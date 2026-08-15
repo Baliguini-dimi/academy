@@ -12,9 +12,8 @@ import com.iua.academy.model.Note;
 import com.iua.academy.model.NoteDetaillee;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -22,12 +21,20 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 
+/**
+ * Controleur du formulaire note, avec validation en temps reel :
+ * chaque erreur s'affiche pres du champ concerne, jamais en popup.
+ */
 public class NoteFormController {
 
     @FXML
     private ComboBox<Etudiant> comboEtudiant;
     @FXML
+    private Label lblErreurEtudiant;
+    @FXML
     private ComboBox<Matiere> comboMatiere;
+    @FXML
+    private Label lblErreurMatiere;
     @FXML
     private TextField champValeur;
     @FXML
@@ -35,7 +42,11 @@ public class NoteFormController {
     @FXML
     private ComboBox<String> comboType;
     @FXML
+    private Label lblErreurType;
+    @FXML
     private DatePicker champDate;
+    @FXML
+    private Label lblErreurDate;
 
     private final EtudiantDAO etudiantDAO = new EtudiantDaoSqlite();
     private final MatiereDAO matiereDAO = new MatiereDaoSqlite();
@@ -51,11 +62,20 @@ public class NoteFormController {
         comboType.setItems(FXCollections.observableArrayList("Devoir", "Interrogation", "Examen", "Projet"));
         champDate.setValue(LocalDate.now());
 
-        // Validation en temps reel : des que l'utilisateur quitte le champ Note
         champValeur.focusedProperty().addListener((obs, etaitFocus, estFocus) -> {
-            if (!estFocus) {
-                validerChampValeur();
-            }
+            if (!estFocus) validerValeur();
+        });
+        comboEtudiant.valueProperty().addListener((obs, ancien, nouveau) -> {
+            if (nouveau != null) masquerErreur(comboEtudiant, lblErreurEtudiant);
+        });
+        comboMatiere.valueProperty().addListener((obs, ancien, nouveau) -> {
+            if (nouveau != null) masquerErreur(comboMatiere, lblErreurMatiere);
+        });
+        comboType.valueProperty().addListener((obs, ancien, nouveau) -> {
+            if (nouveau != null && !nouveau.isBlank()) masquerErreur(comboType, lblErreurType);
+        });
+        champDate.valueProperty().addListener((obs, ancien, nouveau) -> {
+            if (nouveau != null) masquerErreur(champDate, lblErreurDate);
         });
     }
 
@@ -81,51 +101,54 @@ public class NoteFormController {
         return sauvegarde;
     }
 
-    /** Retourne la note validee (0-20) si le champ est correct, sinon affiche l'erreur inline et retourne null. */
-    private Double validerChampValeur() {
+    private Double validerValeur() {
         String texte = champValeur.getText();
         if (texte == null || texte.isBlank()) {
-            masquerErreurValeur();
+            afficherErreur(champValeur, lblErreurValeur, "La note est obligatoire.");
             return null;
         }
-
         double valeur;
         try {
             valeur = Double.parseDouble(texte.trim().replace(",", "."));
         } catch (NumberFormatException e) {
-            afficherErreurValeur("La note doit etre un nombre.");
+            afficherErreur(champValeur, lblErreurValeur, "La note doit etre un nombre.");
             return null;
         }
-
         if (valeur < 0 || valeur > 20) {
-            afficherErreurValeur("La note doit etre comprise entre 0 et 20.");
+            afficherErreur(champValeur, lblErreurValeur, "La note doit etre comprise entre 0 et 20.");
             return null;
         }
-
-        masquerErreurValeur();
+        masquerErreur(champValeur, lblErreurValeur);
         return valeur;
     }
 
-    private void afficherErreurValeur(String message) {
-        lblErreurValeur.setText(message);
-        lblErreurValeur.setVisible(true);
-        lblErreurValeur.setManaged(true);
-        champValeur.setStyle("-fx-border-color: #D64545; -fx-border-width: 1.5;");
+    private void afficherErreur(Control champ, Label lblErreur, String message) {
+        lblErreur.setText(message);
+        lblErreur.setVisible(true);
+        lblErreur.setManaged(true);
+        champ.setStyle("-fx-border-color: #D64545; -fx-border-width: 1.5;");
     }
 
-    private void masquerErreurValeur() {
-        lblErreurValeur.setVisible(false);
-        lblErreurValeur.setManaged(false);
-        champValeur.setStyle("");
+    private void masquerErreur(Control champ, Label lblErreur) {
+        lblErreur.setVisible(false);
+        lblErreur.setManaged(false);
+        champ.setStyle("");
     }
 
     @FXML
     public void enregistrer() {
-        Double valeur = validerChampValeur();
-        if (valeur == null && champValeur.getText() != null && !champValeur.getText().isBlank()) {
-            return; // erreur deja affichee par validerChampValeur()
-        }
-        if (!champsValides(valeur)) {
+        Double valeur = validerValeur();
+        boolean etudiantOk = comboEtudiant.getValue() != null;
+        boolean matiereOk = comboMatiere.getValue() != null;
+        boolean typeOk = comboType.getValue() != null && !comboType.getValue().isBlank();
+        boolean dateOk = champDate.getValue() != null;
+
+        if (!etudiantOk) afficherErreur(comboEtudiant, lblErreurEtudiant, "Selectionnez un etudiant.");
+        if (!matiereOk) afficherErreur(comboMatiere, lblErreurMatiere, "Selectionnez une matiere.");
+        if (!typeOk) afficherErreur(comboType, lblErreurType, "Le type d'evaluation est obligatoire.");
+        if (!dateOk) afficherErreur(champDate, lblErreurDate, "La date est obligatoire.");
+
+        if (valeur == null || !etudiantOk || !matiereOk || !typeOk || !dateOk) {
             return;
         }
 
@@ -153,7 +176,7 @@ public class NoteFormController {
             sauvegarde = true;
             fermerFenetre();
         } catch (RuntimeException e) {
-            afficherErreur("Impossible d'enregistrer la note.");
+            afficherErreur(champValeur, lblErreurValeur, "Impossible d'enregistrer la note.");
         }
     }
 
@@ -161,28 +184,6 @@ public class NoteFormController {
     public void annuler() {
         sauvegarde = false;
         fermerFenetre();
-    }
-
-    private boolean champsValides(Double valeur) {
-        boolean ok = comboEtudiant.getValue() != null
-            && comboMatiere.getValue() != null
-            && valeur != null
-            && comboType.getValue() != null && !comboType.getValue().isBlank()
-            && champDate.getValue() != null;
-        if (!ok && valeur == null) {
-            afficherErreurValeur("La note est obligatoire (entre 0 et 20).");
-        } else if (!ok) {
-            afficherErreur("Tous les champs marques * sont obligatoires.");
-        }
-        return ok;
-    }
-
-    private void afficherErreur(String message) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     private void fermerFenetre() {

@@ -6,8 +6,10 @@ import com.iua.academy.util.DatabaseManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -17,6 +19,19 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 public class ParametresController {
+
+    @FXML
+    private VBox sectionEtablissement;
+    @FXML
+    private VBox sectionEvaluation;
+    @FXML
+    private VBox sectionDonnees;
+    @FXML
+    private Button navEtablissement;
+    @FXML
+    private Button navEvaluation;
+    @FXML
+    private Button navDonnees;
 
     @FXML
     private TextField champNomEtablissement;
@@ -43,6 +58,35 @@ public class ParametresController {
         champTelephone.setText(parametreDAO.obtenir("telephone_etablissement", ""));
         champEmail.setText(parametreDAO.obtenir("email_etablissement", ""));
         champSeuilValidation.setText(parametreDAO.obtenir("seuil_validation", "10"));
+
+        afficherSectionEtablissement();
+    }
+
+    @FXML
+    public void afficherSectionEtablissement() {
+        basculerSection(sectionEtablissement, navEtablissement);
+    }
+
+    @FXML
+    public void afficherSectionEvaluation() {
+        basculerSection(sectionEvaluation, navEvaluation);
+    }
+
+    @FXML
+    public void afficherSectionDonnees() {
+        basculerSection(sectionDonnees, navDonnees);
+    }
+
+    private void basculerSection(VBox sectionAAfficher, Button boutonActif) {
+        for (VBox section : new VBox[]{sectionEtablissement, sectionEvaluation, sectionDonnees}) {
+            boolean estCelleCi = (section == sectionAAfficher);
+            section.setVisible(estCelleCi);
+            section.setManaged(estCelleCi);
+        }
+        for (Button b : new Button[]{navEtablissement, navEvaluation, navDonnees}) {
+            b.getStyleClass().remove("settings-nav-item-active");
+        }
+        boutonActif.getStyleClass().add("settings-nav-item-active");
     }
 
     @FXML

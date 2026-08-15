@@ -728,3 +728,84 @@
 .activity-icon-note {
     -fx-icon-color: -fx-gold;
 }
+
+/* ============================================================
+   TOPBAR : hamburger, recherche globale
+   ============================================================ */
+
+.icon-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 6;
+    -fx-padding: 6;
+    -fx-cursor: hand;
+}
+
+.icon-button:hover {
+    -fx-background-color: -fx-neutral;
+}
+
+.topbar-icon {
+    -fx-icon-color: -fx-navy;
+}
+
+.topbar-search {
+    -fx-background-color: -fx-bg-light;
+    -fx-background-radius: 8;
+    -fx-padding: 6 12 6 12;
+}
+
+.topbar-search-icon {
+    -fx-icon-color: -fx-text-muted;
+}
+
+.topbar-search-field {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 2 0 2 0;
+    -fx-font-size: 13px;
+}
+
+.topbar-search-field:focused {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+/* ============================================================
+   SIDEBAR REDUITE
+   ============================================================ */
+
+.nav-button-collapsed {
+    -fx-padding: 12 0 12 0;
+    -fx-alignment: CENTER;
+    -fx-graphic-text-gap: 0;
+}
+
+.about-tech-discrete {
+    -fx-text-fill: -fx-text-muted;
+    -fx-font-size: 10px;
+}
+
+/* ============================================================
+   NAVIGATION LATERALE PARAMETRES
+   ============================================================ */
+
+.settings-nav-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-text-gray;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 12 10 12;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 10;
+}
+
+.settings-nav-item:hover {
+    -fx-background-color: -fx-bg-light;
+}
+
+.settings-nav-item-active {
+    -fx-background-color: derive(#2E9FE0, 82%);
+    -fx-text-fill: -fx-sky;
+    -fx-font-weight: bold;
+}

@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -19,31 +20,28 @@
 
     <!-- ===== Barre laterale ===== -->
     <left>
-        <VBox styleClass="sidebar">
+        <VBox fx:id="sidebarBox" styleClass="sidebar" prefWidth="240">
             <padding>
-                <Insets top="28" right="20" bottom="20" left="20" />
+                <Insets top="28" right="16" bottom="20" left="16" />
             </padding>
 
-            <!-- Logo agrandi -->
-            <VBox alignment="CENTER_LEFT" spacing="10">
-                <HBox alignment="CENTER_LEFT" spacing="12">
-                    <ImageView fitWidth="44" fitHeight="44" preserveRatio="true">
-                        <image>
-                            <Image url="@../images/logo.png" />
-                        </image>
-                    </ImageView>
-                    <VBox spacing="1">
-                        <Label text="ACADEMY" styleClass="sidebar-logo" />
-                        <Label text="Gestion academique" styleClass="subtitle" />
-                    </VBox>
-                </HBox>
-            </VBox>
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <ImageView fitWidth="46" fitHeight="46" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/logo.png" />
+                    </image>
+                </ImageView>
+                <VBox fx:id="sidebarHeaderText" spacing="1">
+                    <Label text="ACADEMY" styleClass="sidebar-logo" />
+                    <Label text="Gestion academique" styleClass="subtitle" />
+                </VBox>
+            </HBox>
 
             <Region prefHeight="28" />
 
-            <Label text="PRINCIPAL" styleClass="nav-group-label">
+            <Label fx:id="lblGroupePrincipal" text="PRINCIPAL" styleClass="nav-group-label">
                 <VBox.margin>
-                    <Insets left="20" bottom="8" />
+                    <Insets left="8" bottom="8" />
                 </VBox.margin>
             </Label>
 
@@ -70,9 +68,9 @@
 
             <Region prefHeight="24" />
 
-            <Label text="CONFIGURATION" styleClass="nav-group-label">
+            <Label fx:id="lblGroupeConfiguration" text="CONFIGURATION" styleClass="nav-group-label">
                 <VBox.margin>
-                    <Insets left="20" bottom="8" />
+                    <Insets left="8" bottom="8" />
                 </VBox.margin>
             </Label>
 
@@ -91,8 +89,17 @@
 
     <!-- ===== Barre superieure ===== -->
     <top>
-        <HBox styleClass="topbar" alignment="CENTER_LEFT">
-            <Label fx:id="lblTopbarSection" text="Tableau de bord" styleClass="topbar-title" />
+        <HBox styleClass="topbar" alignment="CENTER_LEFT" spacing="14">
+            <Button fx:id="btnToggleSidebar" styleClass="icon-button" onAction="#toggleSidebar">
+                <graphic>
+                    <FontIcon iconLiteral="mdi2m-menu" iconSize="20" styleClass="topbar-icon" />
+                </graphic>
+            </Button>
+
+            <HBox styleClass="topbar-search" alignment="CENTER_LEFT" spacing="8" maxWidth="380" HBox.hgrow="ALWAYS">
+                <FontIcon iconLiteral="mdi2m-magnify" iconSize="16" styleClass="topbar-search-icon" />
+                <TextField fx:id="champRechercheGlobale" promptText="Rechercher (Ctrl+K)..." styleClass="topbar-search-field" HBox.hgrow="ALWAYS" />
+            </HBox>
 
             <Region HBox.hgrow="ALWAYS" />
 

@@ -23,22 +23,34 @@
         </columnConstraints>
 
         <Label text="Etudiant *" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-        <ComboBox fx:id="comboEtudiant" GridPane.rowIndex="0" GridPane.columnIndex="1" maxWidth="Infinity" />
+        <VBox spacing="2" GridPane.rowIndex="0" GridPane.columnIndex="1">
+            <ComboBox fx:id="comboEtudiant" maxWidth="Infinity" />
+            <Label fx:id="lblErreurEtudiant" styleClass="feedback-error" visible="false" managed="false" />
+        </VBox>
 
         <Label text="Matiere *" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-        <ComboBox fx:id="comboMatiere" GridPane.rowIndex="1" GridPane.columnIndex="1" maxWidth="Infinity" />
+        <VBox spacing="2" GridPane.rowIndex="1" GridPane.columnIndex="1">
+            <ComboBox fx:id="comboMatiere" maxWidth="Infinity" />
+            <Label fx:id="lblErreurMatiere" styleClass="feedback-error" visible="false" managed="false" />
+        </VBox>
 
         <Label text="Note (/20) *" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-        <VBox spacing="4" GridPane.rowIndex="2" GridPane.columnIndex="1">
+        <VBox spacing="2" GridPane.rowIndex="2" GridPane.columnIndex="1">
             <TextField fx:id="champValeur" />
             <Label fx:id="lblErreurValeur" styleClass="feedback-error" visible="false" managed="false" />
         </VBox>
 
         <Label text="Type d'evaluation *" GridPane.rowIndex="3" GridPane.columnIndex="0" />
-        <ComboBox fx:id="comboType" GridPane.rowIndex="3" GridPane.columnIndex="1" maxWidth="Infinity" editable="true" />
+        <VBox spacing="2" GridPane.rowIndex="3" GridPane.columnIndex="1">
+            <ComboBox fx:id="comboType" maxWidth="Infinity" editable="true" />
+            <Label fx:id="lblErreurType" styleClass="feedback-error" visible="false" managed="false" />
+        </VBox>
 
         <Label text="Date *" GridPane.rowIndex="4" GridPane.columnIndex="0" />
-        <DatePicker fx:id="champDate" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+        <VBox spacing="2" GridPane.rowIndex="4" GridPane.columnIndex="1">
+            <DatePicker fx:id="champDate" maxWidth="Infinity" />
+            <Label fx:id="lblErreurDate" styleClass="feedback-error" visible="false" managed="false" />
+        </VBox>
     </GridPane>
 
     <HBox spacing="10" alignment="CENTER_RIGHT">

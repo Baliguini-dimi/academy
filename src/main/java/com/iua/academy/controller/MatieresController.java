@@ -3,6 +3,7 @@ package com.iua.academy.controller;
 import com.iua.academy.dao.MatiereDAO;
 import com.iua.academy.dao.MatiereDaoSqlite;
 import com.iua.academy.model.Matiere;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,7 +27,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 public class MatieresController {
 
@@ -40,6 +40,12 @@ public class MatieresController {
     private TableColumn<Matiere, String> colEnseignant;
     @FXML
     private TextField champRecherche;
+    @FXML
+    private Button btnModifier;
+    @FXML
+    private Button btnSupprimer;
+    @FXML
+    private Label lblIndicationSelection;
 
     private final MatiereDAO matiereDAO = new MatiereDaoSqlite();
 
@@ -50,6 +56,12 @@ public class MatieresController {
         colEnseignant.setCellValueFactory(new PropertyValueFactory<>("enseignant"));
 
         tableMatieres.setPlaceholder(construireEtatVide());
+
+        var selectionVide = Bindings.isNull(tableMatieres.getSelectionModel().selectedItemProperty());
+        btnModifier.disableProperty().bind(selectionVide);
+        btnSupprimer.disableProperty().bind(selectionVide);
+        lblIndicationSelection.visibleProperty().bind(selectionVide);
+        lblIndicationSelection.managedProperty().bind(selectionVide);
 
         rafraichir();
     }
@@ -90,7 +102,6 @@ public class MatieresController {
     public void ouvrirFormulaireModification() {
         Matiere selection = tableMatieres.getSelectionModel().getSelectedItem();
         if (selection == null) {
-            afficherInfo("Selectionnez d'abord une matiere dans la liste.");
             return;
         }
         ouvrirFormulaire(selection);
@@ -100,17 +111,16 @@ public class MatieresController {
     public void supprimerSelection() {
         Matiere selection = tableMatieres.getSelectionModel().getSelectedItem();
         if (selection == null) {
-            afficherInfo("Selectionnez d'abord une matiere dans la liste.");
             return;
         }
 
         Alert confirmation = new Alert(AlertType.CONFIRMATION);
-        confirmation.setTitle("Supprimer cette matiere ?");
+        confirmation.setTitle("Supprimer la matiere ?");
         confirmation.setHeaderText(null);
-        confirmation.setContentText("Cette action est definitive. La matiere "
-            + selection.getNom() + " sera supprimee.");
+        confirmation.setContentText("Cette action supprimera definitivement " + selection.getNom()
+            + " ainsi que les notes associees.");
 
-        Optional<ButtonType> reponse = confirmation.showAndWait();
+        var reponse = confirmation.showAndWait();
         if (reponse.isPresent() && reponse.get() == ButtonType.OK) {
             matiereDAO.supprimer(selection.getId());
             rafraichir();
@@ -150,13 +160,5 @@ public class MatieresController {
     private void chargerListe(List<Matiere> matieres) {
         ObservableList<Matiere> data = FXCollections.observableArrayList(matieres);
         tableMatieres.setItems(data);
-    }
-
-    private void afficherInfo(String message) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Information");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }
